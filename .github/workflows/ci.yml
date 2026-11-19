@@ -44,7 +44,8 @@ jobs:
         shell: pwsh
         run: |
           foreach ($f in 'plugins/claude-code/scripts/aw.ps1','plugins/cursor/scripts/aw.ps1') {
-            $null = [System.Management.Automation.Language.Parser]::ParseFile((Resolve-Path $f), [ref]$null, [ref]$errs)
+            $tokens = $null; $errs = $null
+            $null = [System.Management.Automation.Language.Parser]::ParseFile((Resolve-Path $f), [ref]$tokens, [ref]$errs)
             if ($errs.Count) { throw "$f : $errs" }
           }
 
@@ -102,6 +103,9 @@ jobs:
             node scripts/package-target.mjs "$target" "../../dist/agentwatch-0.0.0-ci-$bin" vsix 2>&1 | tee pkg.log
             if grep -q "WARNING" pkg.log; then echo "vsce warning for $target"; exit 1; fi
           done
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
       - name: screenshots render without errors
         run: |
           pip install playwright==1.48.0 && python -m playwright install --with-deps chromium
