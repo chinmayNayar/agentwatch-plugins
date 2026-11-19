@@ -4,7 +4,7 @@ AgentWatch blocks actions **that go through the client's hooks**. That covers mo
 
 This page lists, per client, where blocking stops. Read it before you rely on `enforce`.
 
-## Tested so far (v0.1.0 preview)
+## Tested so far (v0.1 preview)
 
 | Client | Status |
 |---|---|

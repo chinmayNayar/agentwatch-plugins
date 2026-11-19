@@ -22,7 +22,7 @@
    claude plugin validate --strict .
    ```
    Also run gitleaks over the tree and history.
-4. **Tag and push:** `git tag -a v<version> -m "v<version>: <one-line scope>"`, then `git push origin v<version>`. For v0.1.0 the message is `v0.1.0: preview: Claude Code + VS Code`, and the release is marked as a pre-release. `release.yml` then does the following:
+4. **Tag and push:** `git tag -a v<version> -m "v<version>: <one-line scope>"`, then `git push origin v<version>`. For v0.1.1 the message is `v0.1.1: preview: Claude Code + VS Code` (v0.1.0 was tagged but its release failed; a bad tag is never moved or deleted, a new patch release is cut), and the release is marked as a pre-release. `release.yml` then does the following:
    - builds the five binaries
    - writes `SHA256SUMS`
    - packages the five platform VSIXs

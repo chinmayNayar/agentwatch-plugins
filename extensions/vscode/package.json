@@ -2,7 +2,7 @@
   "name": "agentwatch",
   "displayName": "AgentWatch",
   "description": "Watch and stop your coding agents: Claude Code, Cursor, Codex and Copilot sessions as AgentWatch runs, risky tool calls checked before they run, approvals and isolation from the editor.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "publisher": "agentwatch",
   "license": "Apache-2.0",
   "icon": "media/icon.png",

@@ -1,10 +1,14 @@
 # Changelog
 
-## 0.1.0 (unreleased): preview, Claude Code + VS Code
+## 0.1.1: preview, Claude Code + VS Code
+
+First published release. `v0.1.0` was tagged but never released: its release workflow uploaded the VSIX files twice and failed. 0.1.1 fixes that workflow; the code is otherwise the same.
+
+## 0.1.0 (tagged, not released)
 
 First release, published as a **preview**:
 - Claude Code and the VS Code extension are tested end to end.
-- **Cursor, Codex and GitHub Copilot are untested** against the real clients ([LIMITS.md](docs/LIMITS.md#tested-so-far-v010-preview)).
+- **Cursor, Codex and GitHub Copilot are untested** against the real clients ([LIMITS.md](docs/LIMITS.md#tested-so-far-v01-preview)).
 - Fail-closed `enforce` needs a settings-file install on Claude Code 2.1.295+. The plugin path is fail-open.
 
 - `agentwatch` sensor:

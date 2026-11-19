@@ -1,9 +1,9 @@
 # AgentWatch for coding agents and editors
 
-> **v0.1.0 is a preview: Claude Code + VS Code.**
+> **v0.1 is a preview: Claude Code + VS Code.**
 > - Those two are tested end to end.
 > - **Cursor, Codex and GitHub Copilot are untested** against the real clients. They are built from captured or documented hook payloads.
-> - [LIMITS.md](docs/LIMITS.md#tested-so-far-v010-preview) has the detail.
+> - [LIMITS.md](docs/LIMITS.md#tested-so-far-v01-preview) has the detail.
 
 AgentWatch treats the coding agents on your machine (Claude Code, Cursor, Codex and GitHub Copilot) the way it treats production agents:
 

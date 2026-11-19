@@ -38,12 +38,14 @@ jobs:
           for t in darwin-arm64:darwin-arm64 darwin-x64:darwin-x64 linux-x64:linux-x64 linux-arm64:linux-arm64 win32-x64:windows-x64.exe; do
             node scripts/package-target.mjs "${t%%:*}" "../../dist/agentwatch-$v-${t#*:}" ../../dist
           done
-          (cd ../../dist && sha256sum *.vsix >> SHA256SUMS.vsix)
+          (cd ../../dist && sha256sum *.vsix > SHA256SUMS-vsix.txt)
       - name: GitHub release
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release create "$GITHUB_REF_NAME" dist/agentwatch-* dist/SHA256SUMS dist/SHA256SUMS.vsix dist/*.vsix \
+          v="${GITHUB_REF_NAME#v}"
+          # Each file exactly once: binaries are agentwatch-<v>-<os>, VSIXs agentwatch-<target>-<v>.vsix.
+          gh release create "$GITHUB_REF_NAME" dist/agentwatch-"$v"-* dist/SHA256SUMS dist/SHA256SUMS-vsix.txt dist/*.vsix \
             --title "$GITHUB_REF_NAME (preview: Claude Code + VS Code)" --notes-file CHANGELOG.md --verify-tag --prerelease
       - name: VS Code Marketplace
         if: env.VSCE_PAT != ''
