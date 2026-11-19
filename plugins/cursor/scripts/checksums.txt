@@ -1,0 +1,6 @@
+# sha256  asset for v0.1.0, from the release's SHA256SUMS. The shim refuses a binary that does not match.
+6aa55efd12aaf10e4cad9971967b7d5cd0af40871ddb7498a3fa1a18848a99de  agentwatch-0.1.0-darwin-arm64
+9a48804f37e8a5953cc4c85aff93262856e502a25398e7a213f81c95088663df  agentwatch-0.1.0-darwin-x64
+44cdff107652728c56e9c795d5222e8b4bf294bb8f7c60626a8f75ec4b51eac9  agentwatch-0.1.0-linux-arm64
+435c716aae4f846e88a5830b10814c4c3601764b0e8818c7a098f3a6a2040f7b  agentwatch-0.1.0-linux-x64
+14e9a317a5700aac0393b4681b76cf71c8d8399b98aaf2e7c7c95acb9b12ffcf  agentwatch-0.1.0-windows-x64.exe

@@ -1,0 +1,49 @@
+{
+  "preflight": [],
+  "spooled": [
+    {
+      "body": {
+        "agent_name": "cursor@dev",
+        "agent_version": "3.19.7",
+        "error_message": "Command failed",
+        "error_type": "tool_error",
+        "event_id": "\u003cvar\u003e",
+        "event_type": "error",
+        "input_data": {
+          "agentwatch": {
+            "decision": "allow",
+            "source": "local"
+          },
+          "arg_keys": [
+            "file_path"
+          ],
+          "class": "read",
+          "client": "cursor",
+          "hook_event": "postToolUseFailure",
+          "path": "/Users/dev/project/parser/parser.go",
+          "result": {
+            "output_bytes": 14
+          },
+          "tool": "Read"
+        },
+        "model": "grok-4.6",
+        "output_data": {
+          "output_bytes": 14
+        },
+        "session_id": "00000000-0000-4000-8000-564599885217",
+        "tags": [
+          "client:cursor",
+          "client_version:3.19.7",
+          "os:\u003cos\u003e",
+          "repo:1df36fe937b2",
+          "sensor:\u003cversion\u003e"
+        ],
+        "tool_name": "Read"
+      },
+      "id": "\u003cvar\u003e",
+      "ts": "\u003cvar\u003e",
+      "type": "ingest"
+    }
+  ],
+  "stdout": {}
+}

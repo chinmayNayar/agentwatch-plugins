@@ -1,0 +1,26 @@
+{
+  "preflight": [
+    {
+      "client": "codex",
+      "command": "go test ./parser/...",
+      "input_data": {
+        "class": "shell",
+        "command": "go test ./parser/..."
+      },
+      "run_id": "run-1",
+      "sensor_mode": "enforce",
+      "step_type": "tool_call",
+      "tool_name": "Bash"
+    }
+  ],
+  "spooled": [],
+  "stdout": {
+    "hookSpecificOutput": {
+      "hookEventName": "PreToolUse",
+      "permissionDecision": "allow",
+      "updatedInput": {
+        "command": "echo [REDACTED]"
+      }
+    }
+  }
+}

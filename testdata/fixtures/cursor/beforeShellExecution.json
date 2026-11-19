@@ -1,0 +1,17 @@
+{
+  "_source": "captured: Cursor 3.19.7, macOS; every free-text, path and id field rewritten",
+  "command": "go test ./parser/...",
+  "conversation_id": "00000000-0000-4000-8000-564599885217",
+  "cursor_version": "3.19.7",
+  "cwd": "/Users/dev/project",
+  "generation_id": "00000000-0000-4000-8000-164285197142",
+  "hook_event_name": "beforeShellExecution",
+  "model": "grok-4.6",
+  "sandbox": "False",
+  "session_id": "00000000-0000-4000-8000-963528587424",
+  "transcript_path": "/Users/dev/.cursor/projects/Users-dev-project/agent-transcripts/t.jsonl",
+  "user_email": "dev@example.com",
+  "workspace_roots": [
+    "/Users/dev/project"
+  ]
+}

@@ -1,0 +1,13 @@
+# gitleaks configuration: the default rules, plus one path allowlist.
+# The fixture below holds a ${FAKE_OPENAI_KEY} placeholder, which the test
+# loader (internal/hook/harness_test.go) fills in with a fake key built at
+# runtime. No key-shaped literal is committed; the allowlist only keeps a
+# future rule from flagging the placeholder. Nothing else is allowlisted.
+title = "agentwatch-plugins"
+
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = "Redaction test fixture: placeholder for a fake key built at runtime"
+paths = ['''^testdata/fixtures/claude-code/pretooluse_bash_secret\.json$''']

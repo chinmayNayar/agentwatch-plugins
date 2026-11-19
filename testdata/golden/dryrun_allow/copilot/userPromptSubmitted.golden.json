@@ -1,0 +1,30 @@
+{
+  "preflight": [],
+  "spooled": [
+    {
+      "body": {
+        "agent_name": "copilot@dev",
+        "event_id": "\u003cvar\u003e",
+        "event_type": "user_prompt",
+        "input_data": {
+          "prompt": {
+            "length": 31,
+            "sha256_12": "\u003cvar\u003e"
+          }
+        },
+        "session_id": "cp-session-1",
+        "tags": [
+          "client:copilot",
+          "os:\u003cos\u003e",
+          "repo:1df36fe937b2",
+          "sensor:\u003cversion\u003e"
+        ],
+        "tool_name": "user_prompt"
+      },
+      "id": "\u003cvar\u003e",
+      "ts": "\u003cvar\u003e",
+      "type": "ingest"
+    }
+  ],
+  "stdout": {}
+}

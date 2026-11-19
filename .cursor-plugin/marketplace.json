@@ -1,0 +1,16 @@
+{
+  "name": "agentwatch",
+  "owner": {
+    "name": "AgentWatch"
+  },
+  "metadata": {
+    "description": "AgentWatch for Cursor"
+  },
+  "plugins": [
+    {
+      "name": "agentwatch",
+      "source": "plugins/cursor",
+      "description": "Report Cursor agent chats to AgentWatch; check risky tool calls before they run."
+    }
+  ]
+}

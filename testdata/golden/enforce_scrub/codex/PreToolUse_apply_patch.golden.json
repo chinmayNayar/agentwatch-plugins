@@ -1,0 +1,28 @@
+{
+  "preflight": [
+    {
+      "client": "codex",
+      "command": "*** Begin Patch\n*** Update File: parser/parser_test.go\n@@\n-func TestA(t *testing.T) {}\n+func TestA(t *testing.T) { t.Parallel() }\n*** End Patch",
+      "input_data": {
+        "class": "write",
+        "command": "*** Begin Patch\n*** Update File: parser/parser_test.go\n@@\n-func TestA(t *testing.T) {}\n+func TestA(t *testing.T) { t.Parallel() }\n*** End Patch",
+        "path": "parser/parser_test.go"
+      },
+      "path": "parser/parser_test.go",
+      "run_id": "run-1",
+      "sensor_mode": "enforce",
+      "step_type": "tool_call",
+      "tool_name": "apply_patch"
+    }
+  ],
+  "spooled": [],
+  "stdout": {
+    "hookSpecificOutput": {
+      "hookEventName": "PreToolUse",
+      "permissionDecision": "allow",
+      "updatedInput": {
+        "command": "echo [REDACTED]"
+      }
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "_source": "docs: built from the documented schema (docs/research), not a captured payload",
+  "cwd": "/Users/dev/project",
+  "hook_event_name": "UserPromptSubmit",
+  "model": "gpt-5-codex",
+  "prompt": "Add a unit test for the parser.",
+  "session_id": "019a0000-0000-7000-8000-000000000001",
+  "transcript_path": "/Users/dev/.codex/sessions/2026/11/19/rollout.jsonl",
+  "turn_id": "t1"
+}

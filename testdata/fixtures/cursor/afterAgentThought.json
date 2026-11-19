@@ -1,0 +1,27 @@
+{
+  "_source": "captured: Cursor 3.19.7, macOS; every free-text, path and id field rewritten",
+  "conversation_id": "00000000-0000-4000-8000-564599885217",
+  "cursor_version": "3.19.7",
+  "duration_ms": "1936",
+  "generation_id": "00000000-0000-4000-8000-164285197142",
+  "hook_event_name": "afterAgentThought",
+  "model": "cursor-grok-4.6-high-fast",
+  "model_id": "grok-4.6",
+  "model_params": [
+    {
+      "id": "effort",
+      "value": "high"
+    },
+    {
+      "id": "fast",
+      "value": "true"
+    }
+  ],
+  "session_id": "00000000-0000-4000-8000-963528587424",
+  "text": "I'll add the test next to the parser.",
+  "transcript_path": "/Users/dev/.cursor/projects/Users-dev-project/agent-transcripts/t.jsonl",
+  "user_email": "dev@example.com",
+  "workspace_roots": [
+    "/Users/dev/project"
+  ]
+}

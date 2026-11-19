@@ -1,0 +1,66 @@
+{
+  "preflight": [
+    {
+      "client": "cursor",
+      "input_data": {
+        "class": "write",
+        "path": "/Users/dev/project/parser/parser_test.go"
+      },
+      "path": "/Users/dev/project/parser/parser_test.go",
+      "run_id": "run-1",
+      "sensor_mode": "enforce",
+      "step_type": "tool_call",
+      "tool_name": "Write"
+    }
+  ],
+  "spooled": [
+    {
+      "body": {
+        "agent_name": "cursor@dev",
+        "agent_version": "3.19.7",
+        "event_id": "\u003cvar\u003e",
+        "event_type": "tool_call",
+        "input_data": {
+          "agentwatch": {
+            "decision": "deny",
+            "latency_ms": "\u003cvar\u003e",
+            "note": "AgentWatch blocked this call: rule 'no-force-push'",
+            "server": "deny",
+            "source": "server"
+          },
+          "arg_keys": [
+            "contents",
+            "file_path"
+          ],
+          "class": "write",
+          "client": "cursor",
+          "hook_event": "preToolUse",
+          "path": "/Users/dev/project/parser/parser_test.go",
+          "tool": "Write"
+        },
+        "model": "grok-4.6",
+        "output_data": {
+          "blocked": true
+        },
+        "session_id": "00000000-0000-4000-8000-564599885217",
+        "tags": [
+          "client:cursor",
+          "client_version:3.19.7",
+          "os:\u003cos\u003e",
+          "repo:1df36fe937b2",
+          "sensor:\u003cversion\u003e"
+        ],
+        "tool_name": "Write"
+      },
+      "id": "\u003cvar\u003e",
+      "ts": "\u003cvar\u003e",
+      "type": "ingest"
+    }
+  ],
+  "stdout": {
+    "agent_message": "AgentWatch blocked this call: rule 'no-force-push'",
+    "continue": true,
+    "permission": "deny",
+    "user_message": "AgentWatch blocked this call: rule 'no-force-push'"
+  }
+}

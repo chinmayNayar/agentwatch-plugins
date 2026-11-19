@@ -1,0 +1,18 @@
+{
+  "preflight": [
+    {
+      "client": "claude-code",
+      "input_data": {
+        "class": "write",
+        "path": "/Users/dev/project/notes.txt"
+      },
+      "path": "/Users/dev/project/notes.txt",
+      "run_id": "run-1",
+      "sensor_mode": "dry_run",
+      "step_type": "tool_call",
+      "tool_name": "Edit"
+    }
+  ],
+  "spooled": [],
+  "stdout": null
+}

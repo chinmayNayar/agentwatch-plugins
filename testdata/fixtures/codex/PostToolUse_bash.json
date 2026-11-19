@@ -1,0 +1,18 @@
+{
+  "_source": "docs: built from the documented schema (docs/research), not a captured payload",
+  "cwd": "/Users/dev/project",
+  "hook_event_name": "PostToolUse",
+  "model": "gpt-5-codex",
+  "session_id": "019a0000-0000-7000-8000-000000000001",
+  "tool_input": {
+    "command": "go test ./parser/..."
+  },
+  "tool_name": "Bash",
+  "tool_response": {
+    "exit_code": 0,
+    "output": "ok"
+  },
+  "tool_use_id": "call_1",
+  "transcript_path": "/Users/dev/.codex/sessions/2026/11/19/rollout.jsonl",
+  "turn_id": "t1"
+}

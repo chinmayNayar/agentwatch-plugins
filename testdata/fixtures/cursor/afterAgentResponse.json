@@ -1,0 +1,11 @@
+{
+  "_source": "captured: Cursor 3.19.7, macOS; every free-text, path and id field rewritten",
+  "conversation_id": "00000000-0000-4000-8000-575266556435",
+  "generation_id": "00000000-0000-4000-8000-767537585026",
+  "hook_event_name": "afterAgentResponse",
+  "input_tokens": "150",
+  "model": "claude-opus-4-6",
+  "output_tokens": "80",
+  "session_id": "00000000-0000-4000-8000-952861916206",
+  "text": "I'll add the test next to the parser."
+}

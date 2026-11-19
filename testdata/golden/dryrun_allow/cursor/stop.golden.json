@@ -1,0 +1,33 @@
+{
+  "preflight": [],
+  "spooled": [
+    {
+      "body": {
+        "agent_name": "cursor@dev",
+        "agent_version": "3.19.7",
+        "event_id": "\u003cvar\u003e",
+        "event_type": "turn_end",
+        "input_data": {
+          "text": {
+            "length": 0,
+            "sha256_12": "\u003cvar\u003e"
+          }
+        },
+        "model": "cursor-grok-4.6-high-fast",
+        "session_id": "00000000-0000-4000-8000-564599885217",
+        "tags": [
+          "client:cursor",
+          "client_version:3.19.7",
+          "os:\u003cos\u003e",
+          "repo:1df36fe937b2",
+          "sensor:\u003cversion\u003e"
+        ],
+        "tool_name": "turn_end"
+      },
+      "id": "\u003cvar\u003e",
+      "ts": "\u003cvar\u003e",
+      "type": "ingest"
+    }
+  ],
+  "stdout": {}
+}

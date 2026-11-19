@@ -1,0 +1,23 @@
+{
+  "preflight": [
+    {
+      "client": "cursor",
+      "input_data": {
+        "class": "write",
+        "path": "/Users/dev/project/parser/parser_test.go"
+      },
+      "path": "/Users/dev/project/parser/parser_test.go",
+      "run_id": "run-1",
+      "sensor_mode": "enforce",
+      "step_type": "tool_call",
+      "tool_name": "Write"
+    }
+  ],
+  "spooled": [],
+  "stdout": {
+    "agent_message": "AgentWatch redacted secrets",
+    "continue": true,
+    "permission": "deny",
+    "user_message": "AgentWatch redacted secrets"
+  }
+}

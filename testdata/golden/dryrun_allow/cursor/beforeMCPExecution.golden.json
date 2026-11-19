@@ -1,0 +1,23 @@
+{
+  "preflight": [
+    {
+      "client": "cursor",
+      "input_data": {
+        "class": "mcp",
+        "mcp_server": "github",
+        "mcp_tool": "create_issue"
+      },
+      "mcp_server": "github",
+      "mcp_tool": "create_issue",
+      "run_id": "run-1",
+      "sensor_mode": "dry_run",
+      "step_type": "tool_call",
+      "tool_name": "MCP:create_issue"
+    }
+  ],
+  "spooled": [],
+  "stdout": {
+    "continue": true,
+    "permission": "allow"
+  }
+}

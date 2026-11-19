@@ -1,0 +1,62 @@
+{
+  "preflight": [
+    {
+      "client": "copilot",
+      "input_data": {
+        "class": "write",
+        "path": "/Users/dev/project/parser/parser_test.go"
+      },
+      "path": "/Users/dev/project/parser/parser_test.go",
+      "run_id": "run-1",
+      "sensor_mode": "enforce",
+      "step_type": "tool_call",
+      "tool_name": "edit"
+    }
+  ],
+  "spooled": [
+    {
+      "body": {
+        "agent_name": "copilot@dev",
+        "event_id": "\u003cvar\u003e",
+        "event_type": "tool_call",
+        "input_data": {
+          "agentwatch": {
+            "decision": "deny",
+            "latency_ms": "\u003cvar\u003e",
+            "note": "AgentWatch blocked this call: rule 'no-force-push'",
+            "server": "deny",
+            "source": "server"
+          },
+          "arg_keys": [
+            "new_str",
+            "old_str",
+            "path"
+          ],
+          "class": "write",
+          "client": "copilot",
+          "hook_event": "preToolUse",
+          "path": "/Users/dev/project/parser/parser_test.go",
+          "tool": "edit"
+        },
+        "output_data": {
+          "blocked": true
+        },
+        "session_id": "cp-session-1",
+        "tags": [
+          "client:copilot",
+          "os:\u003cos\u003e",
+          "repo:1df36fe937b2",
+          "sensor:\u003cversion\u003e"
+        ],
+        "tool_name": "edit"
+      },
+      "id": "\u003cvar\u003e",
+      "ts": "\u003cvar\u003e",
+      "type": "ingest"
+    }
+  ],
+  "stdout": {
+    "permissionDecision": "deny",
+    "permissionDecisionReason": "AgentWatch blocked this call: rule 'no-force-push'"
+  }
+}

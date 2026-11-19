@@ -1,0 +1,23 @@
+{
+  "_source": "captured: Claude Code 2.1.197, macOS, 2026-11-19; paths sanitised",
+  "cwd": "/Users/dev/project",
+  "duration_ms": 91,
+  "hook_event_name": "PostToolUse",
+  "permission_mode": "default",
+  "prompt_id": "796bd9ae-d202-499c-b7d6-91683f6b451e",
+  "session_id": "40f73f9b-c70f-46ec-beb9-5526cd12ebce",
+  "tool_input": {
+    "command": "ls -la",
+    "description": "List files with details"
+  },
+  "tool_name": "Bash",
+  "tool_response": {
+    "interrupted": false,
+    "isImage": false,
+    "noOutputExpected": false,
+    "stderr": "",
+    "stdout": "total 8\ndrwxr-xr-x@ 3 dev  wheel   96 Nov 19 14:20 .\ndrwxr-xr-x@ 6 dev  wheel  192 Nov 19 14:20 ..\n-rw-r--r--@ 1 dev  wheel    6 Nov 19 14:20 notes.txt"
+  },
+  "tool_use_id": "toolu_01GxzUVCPx53vFC1dRUnbNC4",
+  "transcript_path": "/Users/dev/.claude/projects/-Users-dev-project/40f73f9b-c70f-46ec-beb9-5526cd12ebce.jsonl"
+}

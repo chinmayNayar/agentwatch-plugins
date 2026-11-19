@@ -1,0 +1,28 @@
+{
+  "preflight": [
+    {
+      "client": "claude-code",
+      "command": "git status",
+      "input_data": {
+        "class": "shell",
+        "command": "git status"
+      },
+      "run_id": "run-1",
+      "sensor_mode": "enforce",
+      "step_type": "tool_call",
+      "tool_name": "Bash"
+    }
+  ],
+  "spooled": [],
+  "stdout": {
+    "hookSpecificOutput": {
+      "hookEventName": "PreToolUse",
+      "permissionDecision": "ask",
+      "permissionDecisionReason": "AgentWatch redacted secrets",
+      "updatedInput": {
+        "command": "echo [REDACTED]",
+        "description": "status"
+      }
+    }
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "preflight": [
+    {
+      "client": "claude-code",
+      "command": "git status",
+      "input_data": {
+        "class": "shell",
+        "command": "git status"
+      },
+      "run_id": "run-1",
+      "sensor_mode": "enforce",
+      "step_type": "tool_call",
+      "tool_name": "Bash"
+    }
+  ],
+  "spooled": [
+    {
+      "body": {
+        "agent_name": "claude-code@dev",
+        "event_id": "\u003cvar\u003e",
+        "event_type": "tool_call",
+        "input_data": {
+          "agentwatch": {
+            "decision": "deny",
+            "latency_ms": "\u003cvar\u003e",
+            "note": "AgentWatch blocked this call: rule 'no-force-push'",
+            "server": "deny",
+            "source": "server"
+          },
+          "arg_keys": [
+            "command",
+            "description"
+          ],
+          "class": "shell",
+          "client": "claude-code",
+          "command": "git status",
+          "hook_event": "PreToolUse",
+          "tool": "Bash"
+        },
+        "output_data": {
+          "blocked": true
+        },
+        "session_id": "40f73f9b-c70f-46ec-beb9-5526cd12ebce",
+        "tags": [
+          "client:claude-code",
+          "os:\u003cos\u003e",
+          "repo:1df36fe937b2",
+          "sensor:\u003cversion\u003e"
+        ],
+        "tool_name": "Bash"
+      },
+      "id": "\u003cvar\u003e",
+      "ts": "\u003cvar\u003e",
+      "type": "ingest"
+    }
+  ],
+  "stdout": {
+    "hookSpecificOutput": {
+      "hookEventName": "PreToolUse",
+      "permissionDecision": "deny",
+      "permissionDecisionReason": "AgentWatch blocked this call: rule 'no-force-push'"
+    }
+  }
+}

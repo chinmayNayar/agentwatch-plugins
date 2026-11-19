@@ -1,0 +1,8 @@
+{
+  "_source": "docs: built from the documented schema (docs/research), not a captured payload",
+  "cwd": "/Users/dev/project",
+  "initialPrompt": "Add a unit test",
+  "sessionId": "cp-session-1",
+  "source": "new",
+  "timestamp": 1763560000000
+}

@@ -1,0 +1,24 @@
+{
+  "preflight": [
+    {
+      "client": "claude-code",
+      "input_data": {
+        "class": "write",
+        "path": "/Users/dev/project/out.txt"
+      },
+      "path": "/Users/dev/project/out.txt",
+      "run_id": "run-1",
+      "sensor_mode": "enforce",
+      "step_type": "tool_call",
+      "tool_name": "Write"
+    }
+  ],
+  "spooled": [],
+  "stdout": {
+    "hookSpecificOutput": {
+      "hookEventName": "PreToolUse",
+      "permissionDecision": "deny",
+      "permissionDecisionReason": "AgentWatch redacted secrets"
+    }
+  }
+}

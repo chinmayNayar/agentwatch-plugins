@@ -1,0 +1,8 @@
+{
+  "_source": "docs: built from the documented schema (docs/research), not a captured payload",
+  "cwd": "/Users/dev/project",
+  "sessionId": "cp-session-1",
+  "timestamp": 1763560000000,
+  "toolArgs": "{\"command\":\"go test ./parser/...\",\"description\":\"run tests\"}",
+  "toolName": "bash"
+}

@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "agentwatch": {
+      "command": "${CLAUDE_PLUGIN_ROOT}/scripts/aw.sh",
+      "args": [
+        "mcp"
+      ]
+    }
+  }
+}

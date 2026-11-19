@@ -1,0 +1,25 @@
+{
+  "preflight": [
+    {
+      "client": "copilot",
+      "command": "go test ./parser/...",
+      "input_data": {
+        "class": "shell",
+        "command": "go test ./parser/..."
+      },
+      "run_id": "run-1",
+      "sensor_mode": "enforce",
+      "step_type": "tool_call",
+      "tool_name": "bash"
+    }
+  ],
+  "spooled": [],
+  "stdout": {
+    "modifiedArgs": {
+      "command": "echo [REDACTED]",
+      "description": "run tests"
+    },
+    "permissionDecision": "allow",
+    "permissionDecisionReason": "AgentWatch redacted secrets"
+  }
+}

@@ -1,0 +1,54 @@
+name: release
+on:
+  push:
+    tags: ["v*"]
+permissions:
+  contents: write
+env:
+  GO_VERSION: "1.27.3"
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    env:
+      VSCE_PAT: ${{ secrets.VSCE_PAT }}
+      OVSX_PAT: ${{ secrets.OVSX_PAT }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: ${{ env.GO_VERSION }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: version from tag
+        id: v
+        run: echo "version=${GITHUB_REF_NAME#v}" >> "$GITHUB_OUTPUT"
+      - name: build binaries (reproducible)
+        run: sh scripts/build-release.sh "${{ steps.v.outputs.version }}" dist
+      - name: binaries match the checksums pinned in the plugins
+        run: |
+          sh scripts/pin-checksums.sh dist/SHA256SUMS "${{ steps.v.outputs.version }}"
+          git diff --exit-code -- plugins/ || { echo "pinned checksums differ from this build; run scripts/build-release.sh + pin-checksums.sh and commit before tagging"; exit 1; }
+      - name: package VSIXs
+        working-directory: extensions/vscode
+        run: |
+          npm ci
+          v="${{ steps.v.outputs.version }}"
+          for t in darwin-arm64:darwin-arm64 darwin-x64:darwin-x64 linux-x64:linux-x64 linux-arm64:linux-arm64 win32-x64:windows-x64.exe; do
+            node scripts/package-target.mjs "${t%%:*}" "../../dist/agentwatch-$v-${t#*:}" ../../dist
+          done
+          (cd ../../dist && sha256sum *.vsix >> SHA256SUMS.vsix)
+      - name: GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" dist/agentwatch-* dist/SHA256SUMS dist/SHA256SUMS.vsix dist/*.vsix \
+            --title "$GITHUB_REF_NAME (preview: Claude Code + VS Code)" --notes-file CHANGELOG.md --verify-tag --prerelease
+      - name: VS Code Marketplace
+        if: env.VSCE_PAT != ''
+        working-directory: extensions/vscode
+        run: for f in ../../dist/*.vsix; do npx vsce publish --packagePath "$f"; done
+      - name: Open VSX
+        if: env.OVSX_PAT != ''
+        run: for f in dist/*.vsix; do npx --yes ovsx@0.10.1 publish "$f" -p "$OVSX_PAT"; done

@@ -1,0 +1,8 @@
+{
+  "_source": "captured: Claude Code 2.1.197, macOS, 2026-11-19; paths sanitised",
+  "cwd": "/Users/dev/project",
+  "hook_event_name": "SessionStart",
+  "session_id": "40f73f9b-c70f-46ec-beb9-5526cd12ebce",
+  "source": "startup",
+  "transcript_path": "/Users/dev/.claude/projects/-Users-dev-project/40f73f9b-c70f-46ec-beb9-5526cd12ebce.jsonl"
+}

@@ -1,0 +1,230 @@
+{
+  "name": "agentwatch",
+  "displayName": "AgentWatch",
+  "description": "Watch and stop your coding agents: Claude Code, Cursor, Codex and Copilot sessions as AgentWatch runs, risky tool calls checked before they run, approvals and isolation from the editor.",
+  "version": "0.1.0",
+  "publisher": "agentwatch",
+  "license": "Apache-2.0",
+  "icon": "media/icon.png",
+  "homepage": "https://agentwatch.in",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/chinmayNayar/agentwatch-plugins.git"
+  },
+  "bugs": {
+    "url": "https://github.com/chinmayNayar/agentwatch-plugins/issues"
+  },
+  "engines": {
+    "vscode": "^1.95.0"
+  },
+  "categories": [
+    "Other",
+    "AI"
+  ],
+  "keywords": [
+    "agentwatch",
+    "ai agents",
+    "claude code",
+    "cursor",
+    "copilot",
+    "codex",
+    "security",
+    "audit",
+    "guardrails"
+  ],
+  "galleryBanner": {
+    "color": "#111111",
+    "theme": "dark"
+  },
+  "main": "./dist/extension.js",
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "capabilities": {
+    "untrustedWorkspaces": {
+      "supported": true
+    }
+  },
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "agentwatch",
+          "title": "AgentWatch",
+          "icon": "media/activity.svg"
+        }
+      ]
+    },
+    "views": {
+      "agentwatch": [
+        {
+          "type": "webview",
+          "id": "agentwatch.live",
+          "name": "Live session"
+        },
+        {
+          "type": "webview",
+          "id": "agentwatch.runs",
+          "name": "Runs"
+        },
+        {
+          "type": "webview",
+          "id": "agentwatch.findings",
+          "name": "Findings"
+        },
+        {
+          "type": "webview",
+          "id": "agentwatch.approvals",
+          "name": "Approvals"
+        },
+        {
+          "type": "webview",
+          "id": "agentwatch.gate",
+          "name": "Gate"
+        },
+        {
+          "type": "webview",
+          "id": "agentwatch.audit",
+          "name": "Audit"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "agentwatch.signIn",
+        "title": "Sign in (device code)",
+        "category": "AgentWatch"
+      },
+      {
+        "command": "agentwatch.signOut",
+        "title": "Sign out",
+        "category": "AgentWatch"
+      },
+      {
+        "command": "agentwatch.operatorSignIn",
+        "title": "Sign in as operator (API key, for approvals and isolation)",
+        "category": "AgentWatch"
+      },
+      {
+        "command": "agentwatch.connect",
+        "title": "Connect coding agents",
+        "category": "AgentWatch"
+      },
+      {
+        "command": "agentwatch.doctor",
+        "title": "Run doctor",
+        "category": "AgentWatch"
+      },
+      {
+        "command": "agentwatch.openDashboard",
+        "title": "Open in dashboard",
+        "category": "AgentWatch"
+      },
+      {
+        "command": "agentwatch.refresh",
+        "title": "Refresh",
+        "category": "AgentWatch",
+        "icon": "$(refresh)"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "agentwatch.refresh",
+          "when": "view =~ /^agentwatch\\./",
+          "group": "navigation"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "AgentWatch",
+      "properties": {
+        "agentwatch.apiUrl": {
+          "type": "string",
+          "default": "https://api.agentwatch.in",
+          "markdownDescription": "Your AgentWatch API. `https` only (plain `http` is accepted for `localhost`).",
+          "scope": "machine"
+        },
+        "agentwatch.dashboardUrl": {
+          "type": "string",
+          "default": "",
+          "markdownDescription": "Console URL for *Open in dashboard*. Empty: derived from the API URL (`api.` becomes `app.`).",
+          "scope": "machine"
+        },
+        "agentwatch.pollSeconds": {
+          "type": "number",
+          "default": 5,
+          "minimum": 2,
+          "maximum": 300,
+          "description": "How often views refresh while visible."
+        }
+      }
+    },
+    "walkthroughs": [
+      {
+        "id": "agentwatch.start",
+        "title": "Get started with AgentWatch",
+        "description": "Sign in, connect your coding agents, and choose a mode.",
+        "steps": [
+          {
+            "id": "signin",
+            "title": "Sign in this machine",
+            "description": "Sign in with a device code. The token is stored in your OS keychain, never in a file you commit.\n[Sign in](command:agentwatch.signIn)",
+            "media": {
+              "markdown": "walkthrough/signin.md"
+            },
+            "completionEvents": [
+              "onContext:agentwatch.signedIn"
+            ]
+          },
+          {
+            "id": "connect",
+            "title": "Connect your coding agents",
+            "description": "See exactly which hook files change, then install with a backup. One click undoes it.\n[Connect](command:agentwatch.connect)",
+            "media": {
+              "markdown": "walkthrough/connect.md"
+            },
+            "completionEvents": [
+              "onCommand:agentwatch.connect"
+            ]
+          },
+          {
+            "id": "mode",
+            "title": "Start in dry_run",
+            "description": "dry_run records what would be blocked and blocks nothing (except denied tools and edits to AgentWatch's own hooks). Switch to enforce from a terminal when you are ready.",
+            "media": {
+              "markdown": "walkthrough/mode.md"
+            }
+          },
+          {
+            "id": "dashboard",
+            "title": "Watch it in AgentWatch",
+            "description": "Every session is a run. Open it in the console.\n[Open dashboard](command:agentwatch.openDashboard)",
+            "media": {
+              "markdown": "walkthrough/dashboard.md"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "scripts": {
+    "build": "node esbuild.mjs",
+    "watch": "node esbuild.mjs --watch",
+    "typecheck": "tsc -p . --noEmit",
+    "test:unit": "tsc -p tsconfig.test.json && mocha out/test/unit/**/*.test.js",
+    "test:integration": "npm run build && tsc -p tsconfig.test.json && node out/test/integration/runTest.js",
+    "screenshots": "node test/screens/screens.mjs",
+    "package:target": "node scripts/package-target.mjs"
+  },
+  "devDependencies": {
+    "@types/mocha": "10.0.10",
+    "@types/node": "20.19.43",
+    "@types/vscode": "1.95.0",
+    "@vscode/test-electron": "3.1.0",
+    "@vscode/vsce": "3.9.2",
+    "esbuild": "0.25.12",
+    "mocha": "10.8.2",
+    "typescript": "5.9.3"
+  }
+}

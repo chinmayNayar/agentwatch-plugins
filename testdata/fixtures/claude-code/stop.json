@@ -1,0 +1,13 @@
+{
+  "_source": "captured: Claude Code 2.1.197, macOS, 2026-11-19; paths sanitised",
+  "background_tasks": [],
+  "cwd": "/Users/dev/project",
+  "hook_event_name": "Stop",
+  "last_assistant_message": "Done.",
+  "permission_mode": "default",
+  "prompt_id": "796bd9ae-d202-499c-b7d6-91683f6b451e",
+  "session_crons": [],
+  "session_id": "40f73f9b-c70f-46ec-beb9-5526cd12ebce",
+  "stop_hook_active": false,
+  "transcript_path": "/Users/dev/.claude/projects/-Users-dev-project/40f73f9b-c70f-46ec-beb9-5526cd12ebce.jsonl"
+}

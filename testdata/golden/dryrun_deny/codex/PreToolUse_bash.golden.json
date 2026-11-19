@@ -1,0 +1,18 @@
+{
+  "preflight": [
+    {
+      "client": "codex",
+      "command": "go test ./parser/...",
+      "input_data": {
+        "class": "shell",
+        "command": "go test ./parser/..."
+      },
+      "run_id": "run-1",
+      "sensor_mode": "dry_run",
+      "step_type": "tool_call",
+      "tool_name": "Bash"
+    }
+  ],
+  "spooled": [],
+  "stdout": null
+}

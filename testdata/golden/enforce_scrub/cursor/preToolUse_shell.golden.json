@@ -1,0 +1,27 @@
+{
+  "preflight": [
+    {
+      "client": "cursor",
+      "command": "go test ./parser/...",
+      "input_data": {
+        "class": "shell",
+        "command": "go test ./parser/..."
+      },
+      "run_id": "run-1",
+      "sensor_mode": "enforce",
+      "step_type": "tool_call",
+      "tool_name": "Shell"
+    }
+  ],
+  "spooled": [],
+  "stdout": {
+    "agent_message": "AgentWatch redacted secrets",
+    "continue": true,
+    "permission": "allow",
+    "updated_input": {
+      "command": "echo [REDACTED]",
+      "cwd": "/Users/dev/project",
+      "timeout": 30000
+    }
+  }
+}

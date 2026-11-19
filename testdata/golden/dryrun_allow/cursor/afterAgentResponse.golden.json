@@ -1,0 +1,30 @@
+{
+  "preflight": [],
+  "spooled": [
+    {
+      "body": {
+        "agent_name": "cursor@dev",
+        "event_id": "\u003cvar\u003e",
+        "event_type": "llm_call",
+        "input_data": {
+          "text": {
+            "length": 37,
+            "sha256_12": "\u003cvar\u003e"
+          }
+        },
+        "model": "claude-opus-4-6",
+        "session_id": "00000000-0000-4000-8000-575266556435",
+        "tags": [
+          "client:cursor",
+          "os:\u003cos\u003e",
+          "sensor:\u003cversion\u003e"
+        ],
+        "tool_name": "llm_call"
+      },
+      "id": "\u003cvar\u003e",
+      "ts": "\u003cvar\u003e",
+      "type": "ingest"
+    }
+  ],
+  "stdout": {}
+}

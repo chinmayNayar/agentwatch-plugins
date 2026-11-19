@@ -1,0 +1,25 @@
+{
+  "preflight": [],
+  "spooled": [
+    {
+      "body": {
+        "agent_name": "copilot@dev",
+        "end_run": true,
+        "end_status": "done",
+        "event_id": "\u003cvar\u003e",
+        "event_type": "run_end",
+        "session_id": "cp-session-1",
+        "tags": [
+          "client:copilot",
+          "os:\u003cos\u003e",
+          "repo:1df36fe937b2",
+          "sensor:\u003cversion\u003e"
+        ]
+      },
+      "id": "\u003cvar\u003e",
+      "ts": "\u003cvar\u003e",
+      "type": "ingest"
+    }
+  ],
+  "stdout": {}
+}

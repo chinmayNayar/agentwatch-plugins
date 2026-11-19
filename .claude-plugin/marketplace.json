@@ -1,0 +1,16 @@
+{
+  "name": "agentwatch",
+  "owner": {
+    "name": "AgentWatch",
+    "url": "https://agentwatch.in"
+  },
+  "description": "AgentWatch for coding agents: runs, pre-action checks and a kill switch for Claude Code.",
+  "plugins": [
+    {
+      "name": "agentwatch",
+      "source": "./plugins/claude-code",
+      "description": "Report every Claude Code session to AgentWatch and check risky tool calls before they run.",
+      "category": "security"
+    }
+  ]
+}

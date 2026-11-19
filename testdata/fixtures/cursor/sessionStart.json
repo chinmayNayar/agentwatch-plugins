@@ -1,0 +1,16 @@
+{
+  "_source": "docs: built from the documented schema (docs/research), not a captured payload",
+  "composer_mode": "agent",
+  "conversation_id": "00000000-0000-4000-8000-000000000001",
+  "cursor_version": "3.19.7",
+  "generation_id": "00000000-0000-4000-8000-000000000002",
+  "hook_event_name": "sessionStart",
+  "is_background_agent": false,
+  "model": "default",
+  "session_id": "00000000-0000-4000-8000-000000000001",
+  "transcript_path": null,
+  "user_email": "dev@example.com",
+  "workspace_roots": [
+    "/Users/dev/project"
+  ]
+}

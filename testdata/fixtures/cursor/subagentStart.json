@@ -1,0 +1,17 @@
+{
+  "_source": "docs: built from the documented schema (docs/research), not a captured payload",
+  "conversation_id": "00000000-0000-4000-8000-000000000001",
+  "cursor_version": "3.19.7",
+  "generation_id": "00000000-0000-4000-8000-000000000002",
+  "hook_event_name": "subagentStart",
+  "model": "default",
+  "parent_conversation_id": "00000000-0000-4000-8000-000000000001",
+  "subagent_id": "sa-1",
+  "subagent_type": "explore",
+  "task": "Find the parser",
+  "transcript_path": null,
+  "user_email": "dev@example.com",
+  "workspace_roots": [
+    "/Users/dev/project"
+  ]
+}

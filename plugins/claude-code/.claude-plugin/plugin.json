@@ -1,0 +1,57 @@
+{
+  "name": "agentwatch",
+  "displayName": "AgentWatch",
+  "version": "0.1.0",
+  "description": "Watches Claude Code like a production agent: every session becomes an AgentWatch run, risky tool calls are checked before they run, and an operator can stop the agent from the console. Defaults to dry_run.",
+  "author": {
+    "name": "AgentWatch",
+    "url": "https://agentwatch.in"
+  },
+  "homepage": "https://agentwatch.in",
+  "repository": "https://github.com/chinmayNayar/agentwatch-plugins",
+  "license": "Apache-2.0",
+  "keywords": [
+    "security",
+    "observability",
+    "audit",
+    "guardrails",
+    "hooks",
+    "agents"
+  ],
+  "icon": "./logo.png",
+  "documentationUrl": "https://github.com/chinmayNayar/agentwatch-plugins/blob/main/docs/claude-code.md",
+  "supportUrl": "https://github.com/chinmayNayar/agentwatch-plugins/issues",
+  "privacyPolicyUrl": "https://github.com/chinmayNayar/agentwatch-plugins/blob/main/PRIVACY.md",
+  "userConfig": {
+    "api_url": {
+      "type": "string",
+      "title": "AgentWatch API URL",
+      "description": "Your AgentWatch API. Use your own host for self-hosted AgentWatch.",
+      "default": "https://api.agentwatch.in"
+    },
+    "api_key": {
+      "type": "string",
+      "title": "AgentWatch API key (optional)",
+      "description": "Leave empty and run `agentwatch login` instead to sign this machine in with a device code. Stored in your OS keychain by Claude Code.",
+      "sensitive": true
+    },
+    "mode": {
+      "type": "string",
+      "title": "Mode",
+      "description": "dry_run records what would be blocked and never blocks (denied tools and self-protection excepted). enforce blocks denied, held and isolated calls.",
+      "options": [
+        "dry_run",
+        "enforce"
+      ],
+      "default": "dry_run"
+    }
+  },
+  "network": {
+    "hosts": [
+      "api.agentwatch.in",
+      "github.com",
+      "objects.githubusercontent.com",
+      "release-assets.githubusercontent.com"
+    ]
+  }
+}

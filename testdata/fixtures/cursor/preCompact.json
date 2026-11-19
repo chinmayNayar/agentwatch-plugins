@@ -1,0 +1,21 @@
+{
+  "_source": "captured: Cursor 3.19.7, macOS; every free-text, path and id field rewritten",
+  "context_tokens": "0",
+  "context_usage_percent": "0",
+  "context_window_size": "0",
+  "conversation_id": "00000000-0000-4000-8000-564599885217",
+  "cursor_version": "3.19.7",
+  "generation_id": "00000000-0000-4000-8000-939559592270",
+  "hook_event_name": "preCompact",
+  "is_first_compaction": "False",
+  "message_count": "399",
+  "messages_to_compact": "396",
+  "model": "cursor-grok-4.6-high-fast",
+  "session_id": "00000000-0000-4000-8000-963528587424",
+  "transcript_path": "/Users/dev/.cursor/projects/Users-dev-project/agent-transcripts/t.jsonl",
+  "trigger": "auto",
+  "user_email": "dev@example.com",
+  "workspace_roots": [
+    "/Users/dev/project"
+  ]
+}

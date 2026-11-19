@@ -1,0 +1,26 @@
+{
+  "_source": "captured: Cursor 3.19.7, macOS; every free-text, path and id field rewritten",
+  "conversation_id": "00000000-0000-4000-8000-564599885217",
+  "cursor_version": "3.19.7",
+  "cwd": "/Users/dev/project",
+  "duration": "49282.965",
+  "error_message": "Command failed",
+  "failure_type": "error",
+  "generation_id": "00000000-0000-4000-8000-487265777076",
+  "hook_event_name": "postToolUseFailure",
+  "is_interrupt": "False",
+  "model": "grok-4.6",
+  "session_id": "00000000-0000-4000-8000-963528587424",
+  "tool_input": {
+    "command": "go test ./parser/...",
+    "cwd": "/Users/dev/project",
+    "timeout": 30000
+  },
+  "tool_name": "Shell",
+  "tool_use_id": "00000000-0000-4000-8000-901518628136",
+  "transcript_path": "/Users/dev/.cursor/projects/Users-dev-project/agent-transcripts/t.jsonl",
+  "user_email": "dev@example.com",
+  "workspace_roots": [
+    "/Users/dev/project"
+  ]
+}

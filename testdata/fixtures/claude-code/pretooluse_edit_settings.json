@@ -1,0 +1,16 @@
+{
+  "_source": "docs: built from the documented schema (docs/research), not a captured payload",
+  "cwd": "/Users/dev/project",
+  "hook_event_name": "PreToolUse",
+  "permission_mode": "default",
+  "prompt_id": "796bd9ae-d202-499c-b7d6-91683f6b451e",
+  "session_id": "40f73f9b-c70f-46ec-beb9-5526cd12ebce",
+  "tool_input": {
+    "file_path": "/Users/dev/.claude/settings.json",
+    "new_string": "\"nohooks\"",
+    "old_string": "\"hooks\""
+  },
+  "tool_name": "Edit",
+  "tool_use_id": "toolu_sp1",
+  "transcript_path": "/Users/dev/.claude/projects/-Users-dev-project/40f73f9b.jsonl"
+}

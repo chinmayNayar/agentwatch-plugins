@@ -1,0 +1,55 @@
+# AgentWatch for Claude Code
+
+AgentWatch treats your Claude Code sessions like production agents:
+
+- Every session becomes an AgentWatch **run** and every tool call a **step**.
+- Shell, write, network and MCP calls are checked **before they run**.
+- An operator can **stop the agent** from the AgentWatch console.
+
+The plugin starts in `dry_run`. In this mode it records what it *would* have blocked and blocks nothing, with two exceptions: tools on your passport's denied list, and edits to AgentWatch's own hook files.
+
+## Install
+
+```bash
+claude plugin marketplace add chinmayNayar/agentwatch-plugins
+claude plugin install agentwatch@agentwatch
+```
+
+Then sign the machine in, either by running `agentwatch login` (device code, recommended) or by setting the plugin's `api_key` option in `/config`. This needs Claude Code 2.1.271 or later.
+
+## What it runs and sends
+
+On the first session start, `scripts/aw.sh` downloads the `agentwatch` binary for your platform from this repository's GitHub Release (`github.com/chinmayNayar/agentwatch-plugins/releases`). It checks the file against the SHA-256 in `scripts/checksums.txt`, which ships inside this plugin, and refuses a file that does not match.
+
+The binary talks only to your AgentWatch API (`api_url`, default `https://api.agentwatch.in`).
+
+**It sends:**
+- tool names
+- commands, after secrets are redacted on your machine
+- file paths
+- MCP server and tool names
+- sizes, exit codes and durations
+
+**It never sends file contents, tool output or your prompts** unless you turn content capture on. [PRIVACY.md](https://github.com/chinmayNayar/agentwatch-plugins/blob/main/PRIVACY.md) lists every field.
+
+## Options
+
+| Option | Default | Meaning |
+|---|---|---|
+| `api_url` | `https://api.agentwatch.in` | Your AgentWatch API |
+| `api_key` | empty | Optional: an AgentWatch API key, kept in your OS keychain |
+| `mode` | `dry_run` | `enforce` blocks denied, held and isolated calls |
+
+## Skills
+
+`/agentwatch:status`, `/agentwatch:runs`, `/agentwatch:findings`, `/agentwatch:posture`, `/agentwatch:mode`, `/agentwatch:doctor`.
+
+## What it cannot do
+
+Blocking covers actions that go through Claude Code's hooks. The plugin cannot stop:
+- anything a managed `disableAllHooks` or `allowManagedHooksOnly` setting turns off,
+- a process the agent starts and that keeps running after the tool call returns.
+
+See [LIMITS.md](https://github.com/chinmayNayar/agentwatch-plugins/blob/main/docs/LIMITS.md).
+
+License: Apache-2.0.

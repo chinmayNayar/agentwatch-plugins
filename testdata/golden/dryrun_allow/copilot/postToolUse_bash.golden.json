@@ -1,0 +1,40 @@
+{
+  "preflight": [],
+  "spooled": [
+    {
+      "body": {
+        "agent_name": "copilot@dev",
+        "event_id": "\u003cvar\u003e",
+        "event_type": "tool_call",
+        "input_data": {
+          "arg_keys": [
+            "command"
+          ],
+          "class": "shell",
+          "client": "copilot",
+          "command": "go test ./parser/...",
+          "hook_event": "postToolUse",
+          "result": {
+            "output_bytes": 2
+          },
+          "tool": "bash"
+        },
+        "output_data": {
+          "output_bytes": 2
+        },
+        "session_id": "cp-session-1",
+        "tags": [
+          "client:copilot",
+          "os:\u003cos\u003e",
+          "repo:1df36fe937b2",
+          "sensor:\u003cversion\u003e"
+        ],
+        "tool_name": "bash"
+      },
+      "id": "\u003cvar\u003e",
+      "ts": "\u003cvar\u003e",
+      "type": "ingest"
+    }
+  ],
+  "stdout": {}
+}

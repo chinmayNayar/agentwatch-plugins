@@ -1,0 +1,27 @@
+# secrets and local config
+.env
+.env.*
+*.pem
+*.key
+credentials
+
+# build outputs
+dist/
+/agentwatch
+/agentwatch.exe
+*.vsix
+extensions/vscode/vsix/
+extensions/vscode/bin/
+extensions/vscode/out/
+extensions/vscode/.vscode-test/
+extensions/vscode/test/screens/.*.html
+node_modules/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+desktop.ini
+__MACOSX/
+*.swp
+.idea/
+*.golden.json.got

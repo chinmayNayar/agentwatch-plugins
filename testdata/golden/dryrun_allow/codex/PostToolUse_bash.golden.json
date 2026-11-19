@@ -1,0 +1,41 @@
+{
+  "preflight": [],
+  "spooled": [
+    {
+      "body": {
+        "agent_name": "codex@dev",
+        "event_id": "\u003cvar\u003e",
+        "event_type": "tool_call",
+        "input_data": {
+          "arg_keys": [
+            "command"
+          ],
+          "class": "shell",
+          "client": "codex",
+          "command": "go test ./parser/...",
+          "hook_event": "PostToolUse",
+          "result": {
+            "output_bytes": 29
+          },
+          "tool": "Bash"
+        },
+        "model": "gpt-5-codex",
+        "output_data": {
+          "output_bytes": 29
+        },
+        "session_id": "019a0000-0000-7000-8000-000000000001",
+        "tags": [
+          "client:codex",
+          "os:\u003cos\u003e",
+          "repo:1df36fe937b2",
+          "sensor:\u003cversion\u003e"
+        ],
+        "tool_name": "Bash"
+      },
+      "id": "\u003cvar\u003e",
+      "ts": "\u003cvar\u003e",
+      "type": "ingest"
+    }
+  ],
+  "stdout": null
+}

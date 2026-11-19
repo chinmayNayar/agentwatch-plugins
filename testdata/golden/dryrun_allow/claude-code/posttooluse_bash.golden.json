@@ -1,0 +1,42 @@
+{
+  "preflight": [],
+  "spooled": [
+    {
+      "body": {
+        "agent_name": "claude-code@dev",
+        "event_id": "\u003cvar\u003e",
+        "event_type": "tool_call",
+        "input_data": {
+          "arg_keys": [
+            "command",
+            "description"
+          ],
+          "class": "shell",
+          "client": "claude-code",
+          "command": "ls -la",
+          "hook_event": "PostToolUse",
+          "result": {
+            "output_bytes": 240
+          },
+          "tool": "Bash"
+        },
+        "latency_ms": "\u003cvar\u003e",
+        "output_data": {
+          "output_bytes": 240
+        },
+        "session_id": "40f73f9b-c70f-46ec-beb9-5526cd12ebce",
+        "tags": [
+          "client:claude-code",
+          "os:\u003cos\u003e",
+          "repo:1df36fe937b2",
+          "sensor:\u003cversion\u003e"
+        ],
+        "tool_name": "Bash"
+      },
+      "id": "\u003cvar\u003e",
+      "ts": "\u003cvar\u003e",
+      "type": "ingest"
+    }
+  ],
+  "stdout": null
+}

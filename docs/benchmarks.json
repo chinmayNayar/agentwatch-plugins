@@ -1,0 +1,32 @@
+{
+  "cpus": 10,
+  "date": "2026-11-19T09:44:09Z",
+  "goarch": "arm64",
+  "goos": "darwin",
+  "results": [
+    {
+      "scenario": "local_allow",
+      "n": 500,
+      "p50_ms": 8.309,
+      "p95_ms": 9.604,
+      "p99_ms": 10.299,
+      "max_ms": 15.038
+    },
+    {
+      "scenario": "local_deny",
+      "n": 500,
+      "p50_ms": 11.545,
+      "p95_ms": 15.758,
+      "p99_ms": 20.672,
+      "max_ms": 32.904
+    },
+    {
+      "scenario": "server_allow",
+      "n": 500,
+      "p50_ms": 46.592,
+      "p95_ms": 94.024,
+      "p99_ms": 135.784,
+      "max_ms": 926.431
+    }
+  ]
+}

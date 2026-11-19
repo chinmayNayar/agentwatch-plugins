@@ -1,0 +1,20 @@
+{
+  "preflight": [
+    {
+      "client": "claude-code",
+      "input_data": {
+        "class": "mcp",
+        "mcp_server": "github",
+        "mcp_tool": "create_pull_request"
+      },
+      "mcp_server": "github",
+      "mcp_tool": "create_pull_request",
+      "run_id": "run-1",
+      "sensor_mode": "dry_run",
+      "step_type": "tool_call",
+      "tool_name": "mcp__github__create_pull_request"
+    }
+  ],
+  "spooled": [],
+  "stdout": null
+}

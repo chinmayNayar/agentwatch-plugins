@@ -1,0 +1,22 @@
+{
+  "preflight": [
+    {
+      "client": "codex",
+      "input_data": {
+        "class": "mcp",
+        "mcp_server": "filesystem",
+        "mcp_tool": "read_file",
+        "path": "/Users/dev/project/README.md"
+      },
+      "mcp_server": "filesystem",
+      "mcp_tool": "read_file",
+      "path": "/Users/dev/project/README.md",
+      "run_id": "run-1",
+      "sensor_mode": "dry_run",
+      "step_type": "tool_call",
+      "tool_name": "mcp__filesystem__read_file"
+    }
+  ],
+  "spooled": [],
+  "stdout": null
+}
