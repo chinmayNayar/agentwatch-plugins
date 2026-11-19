@@ -134,12 +134,27 @@ func normalise(p, cwd, home string) string {
 		p = home + p[1:]
 	}
 	p = strings.ReplaceAll(p, `\`, "/")
-	if !filepath.IsAbs(p) && !isWinAbs(p) && cwd != "" {
-		p = strings.ReplaceAll(cwd, `\`, "/") + "/" + p
+	p = msysToWin(p)
+	// A leading "/" is absolute on every OS. filepath.IsAbs is false for
+	// "/Users/dev/..." on Windows (no drive letter), which used to join such
+	// paths, and $HOME-expanded ones, onto the cwd so they never matched.
+	if !strings.HasPrefix(p, "/") && !isWinAbs(p) && cwd != "" {
+		p = msysToWin(strings.ReplaceAll(cwd, `\`, "/")) + "/" + p
 	}
 	p = filepath.ToSlash(filepath.Clean(filepath.FromSlash(p)))
 	if runtime.GOOS == "windows" || isWinAbs(p) {
 		p = strings.ToLower(p)
+	}
+	return p
+}
+
+// msysToWin turns a Git Bash / MSYS path ("/c/Users/dev/x") into "c:/Users/dev/x".
+func msysToWin(p string) string {
+	if len(p) >= 3 && p[0] == '/' && p[2] == '/' && ((p[1] >= 'a' && p[1] <= 'z') || (p[1] >= 'A' && p[1] <= 'Z')) {
+		return string(p[1]) + ":" + p[2:]
+	}
+	if len(p) == 2 && p[0] == '/' && ((p[1] >= 'a' && p[1] <= 'z') || (p[1] >= 'A' && p[1] <= 'Z')) {
+		return string(p[1]) + ":/"
 	}
 	return p
 }

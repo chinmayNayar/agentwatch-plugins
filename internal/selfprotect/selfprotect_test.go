@@ -69,3 +69,27 @@ func TestOnlyPreToolEventsAreChecked(t *testing.T) {
 		t.Fatal("post events cannot be blocked and must not be checked")
 	}
 }
+
+// On Windows a client or Git Bash can name protected files as
+// "/c/Users/dev/..." or "$HOME/...": both must be caught for a Windows home.
+func TestWindowsHomeWithPosixAndMsysPaths(t *testing.T) {
+	const winHome = `C:\Users\dev`
+	cwd := `C:\Users\dev\project`
+	for _, ev := range []*event.Event{
+		{Kind: event.PreTool, Class: event.ClassWrite, ToolName: "Write", Path: "/c/Users/dev/.agentwatch/config.json", Cwd: cwd},
+		{Kind: event.PreTool, Class: event.ClassWrite, ToolName: "Write", Path: `C:\Users\dev\.claude\settings.json`, Cwd: cwd},
+		{Kind: event.PreTool, Class: event.ClassWrite, ToolName: "Write", Path: "c:/users/DEV/.cursor/hooks.json", Cwd: cwd},
+		{Kind: event.PreTool, Class: event.ClassShell, ToolName: "Bash", Command: "rm -rf /c/Users/dev/.agentwatch", Cwd: cwd},
+		{Kind: event.PreTool, Class: event.ClassShell, ToolName: "Bash", Command: "rm -rf $HOME/.agentwatch", Cwd: cwd},
+		{Kind: event.PreTool, Class: event.ClassShell, ToolName: "Bash", Command: "echo x > .cursor/hooks.json", Cwd: "/c/Users/dev/project"},
+	} {
+		if Check(ev, winHome) == "" {
+			t.Errorf("not blocked: %s %q %q", ev.ToolName, ev.Command, ev.Path)
+		}
+	}
+	// And an unrelated file next door is not.
+	ok := &event.Event{Kind: event.PreTool, Class: event.ClassWrite, ToolName: "Write", Path: "/c/Users/dev/project/main.go", Cwd: cwd}
+	if r := Check(ok, winHome); r != "" {
+		t.Errorf("false positive: %s", r)
+	}
+}

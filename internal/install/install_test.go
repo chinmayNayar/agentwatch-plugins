@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"os"
 	"path/filepath"
+	"runtime"
 	"strings"
 	"testing"
 )
@@ -72,7 +73,7 @@ func TestMergeKeepsTheUsersHooksAndKeyOrder(t *testing.T) {
 		t.Fatal("our hooks missing")
 	}
 	// Permissions stay 0600 if they were.
-	if info, _ := os.Stat(p); info.Mode().Perm() != 0o600 {
+	if info, _ := os.Stat(p); runtime.GOOS != "windows" && info.Mode().Perm() != 0o600 { // no Unix modes on Windows
 		t.Fatalf("mode changed to %v", info.Mode().Perm())
 	}
 	if !strings.Contains(s, `"timeout": 5`) || strings.Contains(s, `"timeout": 600`) {

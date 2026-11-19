@@ -96,7 +96,7 @@ jobs:
           VSCODE_TEST_VERSION: "1.95.3"
       - name: package every target with zero vsce warnings
         run: |
-          sh ../../scripts/build-release.sh 0.0.0-ci ../../dist
+          (cd ../.. && sh scripts/build-release.sh 0.0.0-ci dist)
           for t in darwin-arm64:darwin-arm64 darwin-x64:darwin-x64 linux-x64:linux-x64 linux-arm64:linux-arm64 win32-x64:windows-x64.exe; do
             target=${t%%:*}; bin=${t#*:}
             node scripts/package-target.mjs "$target" "../../dist/agentwatch-0.0.0-ci-$bin" vsix 2>&1 | tee pkg.log

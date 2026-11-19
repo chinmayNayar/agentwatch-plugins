@@ -1,0 +1,7 @@
+# Check out text with LF on every OS: goldens and fixtures are compared
+# byte for byte, and the shell shims must run under Git Bash on Windows.
+* text=auto eol=lf
+*.ps1 text eol=lf
+*.png binary
+*.woff2 binary
+*.ico binary
