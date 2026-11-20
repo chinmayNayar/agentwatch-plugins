@@ -1,7 +1,7 @@
 {
   "name": "agentwatch",
   "displayName": "AgentWatch",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Watches Claude Code like a production agent: every session becomes an AgentWatch run, risky tool calls are checked before they run, and an operator can stop the agent from the console. Defaults to dry_run.",
   "author": {
     "name": "AgentWatch",
@@ -32,17 +32,13 @@
     "api_key": {
       "type": "string",
       "title": "AgentWatch API key (optional)",
-      "description": "Leave empty and run `agentwatch login` instead to sign this machine in with a device code. Stored in your OS keychain by Claude Code.",
+      "description": "Leave empty and run /agentwatch:setup instead: it signs this machine in with a device code you approve in the browser. A key entered here is stored in your OS keychain by Claude Code.",
       "sensitive": true
     },
     "mode": {
       "type": "string",
-      "title": "Mode",
-      "description": "dry_run records what would be blocked and never blocks (denied tools and self-protection excepted). enforce blocks denied, held and isolated calls.",
-      "options": [
-        "dry_run",
-        "enforce"
-      ],
+      "title": "Mode (dry_run or enforce)",
+      "description": "Type dry_run or enforce. dry_run records what would be blocked and never blocks (denied tools and self-protection excepted). enforce blocks denied, held and isolated calls. Anything else means dry_run.",
       "default": "dry_run"
     }
   },

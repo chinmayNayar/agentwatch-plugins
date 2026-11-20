@@ -26,6 +26,7 @@ import (
 	"time"
 
 	"github.com/chinmayNayar/agentwatch-plugins/internal/adapters"
+	"github.com/chinmayNayar/agentwatch-plugins/internal/adapters/common"
 	"github.com/chinmayNayar/agentwatch-plugins/internal/adapters/cursor"
 	"github.com/chinmayNayar/agentwatch-plugins/internal/client"
 	"github.com/chinmayNayar/agentwatch-plugins/internal/config"
@@ -196,6 +197,11 @@ func (e *engine) handle() []byte {
 	switch ev.Kind {
 	case event.SessionStart:
 		e.sessionStart()
+		if ev.Client == "claude-code" && e.credential() == nil {
+			// Say it once per session, where the person sees it. The sensor
+			// still runs: it queues events and applies local rules.
+			return common.Marshal(map[string]any{"systemMessage": NotSignedInMessage()})
+		}
 	case event.Prompt:
 		e.checkBypass()
 		e.report("user_prompt", map[string]any{"prompt": e.textField(ev.Prompt)}, nil, "")
@@ -273,6 +279,12 @@ func (e *engine) refreshPolicy(ctx context.Context) *client.Policy {
 	}
 	state.SavePolicy(p)
 	return p
+}
+
+// NotSignedInMessage is shown at session start until the machine signs in.
+func NotSignedInMessage() string {
+	return "AgentWatch is installed but this machine is not signed in. Events are kept on this machine and sent " +
+		"after sign-in. To sign in, " + config.SignInHint() + "."
 }
 
 // AW-D05: Claude Code tells every hook its permission mode.
@@ -445,7 +457,7 @@ func (e *engine) preTool() []byte {
 func (e *engine) askServer(refresh bool) event.Verdict {
 	ev := e.ev
 	if e.credential() == nil {
-		return policy.FromFailure(e.cfg, fmt.Errorf("%w: not signed in", client.ErrUnavailable))
+		return policy.FromFailure(e.cfg, fmt.Errorf("%w: %w", client.ErrUnavailable, config.ErrNoCredential))
 	}
 	ctx, cancel := context.WithTimeout(context.Background(), e.cfg.Timeout())
 	defer cancel()

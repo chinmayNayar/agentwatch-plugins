@@ -196,8 +196,17 @@ These are denied in every mode unless `self_protect: false` is set in the
 config file, which an agent cannot reach because of the same rule:
 
 - an agent write, edit or delete
-- a shell command that writes, moves or deletes (`>`, `>>`, `tee`, `sed -i`,
-  `rm`, `mv`, `cp … <dest>`, `truncate`, `chmod`)
+- a shell command that writes, moves or deletes there (`>`, `>>`, `tee`,
+  `sed -i`, `rm`, `mv`, `cp … <dest>`, `truncate`, `chmod`, `ln`, editors,
+  `find -delete` / `-exec rm`, `xargs rm`, `git clean` / `checkout`)
+- any agent read of the credential (`~/.agentwatch/credentials*`, the
+  keychain entry), so a hijacked agent cannot take the device token
+
+Reads of the other protected paths are allowed. The check parses the
+command (internal/selfprotect/shell.go: quoting, pipes, `&&`, subshells,
+`$(...)`, heredocs, redirections, `cd`, `sh -c`) and looks at what each
+command writes; a command it cannot parse falls back to the old rule
+(any write verb plus any protected path blocks).
 
 The protected paths:
 - `~/.claude/settings*.json`, `.claude/settings*.json`
@@ -276,8 +285,9 @@ an interpreter one-liner) can get past it. LIMITS.md says so.
    applies fail_closed itself before that timeout. The hook-level block is
    available only through `agentwatch install claude-code` (settings file),
    which needs Claude Code 2.1.295+ for `onFailure`.
-3. **Claude Code floor 2.1.271.** `userConfig.options` (dry_run/enforce)
-   makes older versions refuse to load the plugin.
+3. **Claude Code floor 2.1.197.** 0.1.1 used `userConfig.options`
+   (dry_run/enforce), which made older versions refuse the plugin. 0.1.2
+   uses a free-text `mode` that the sensor reads case-insensitively.
 4. **Plugin hooks use shell form, not exec form.** An exec-form `.sh` cannot
    start on Windows, while the shell form runs under Git Bash there. Windows
    without Git Bash uses `agentwatch install` or the VS Code extension, which

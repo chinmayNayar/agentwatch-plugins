@@ -13,12 +13,13 @@ The plugin starts in `dry_run`. In this mode it records what it *would* have blo
 ## Install
 
 1. Install the plugin from the Cursor marketplace, or add this repository as a plugin source.
-2. In a terminal, sign the machine in with `agentwatch login`.
-3. Run `agentwatch doctor` to check that everything is green.
+2. In a terminal, sign the machine in. The plugin keeps its binary in `~/.agentwatch/plugin-data/bin` (it is not on your PATH):
+   `~/.agentwatch/plugin-data/bin/agentwatch login`
+3. Run `~/.agentwatch/plugin-data/bin/agentwatch doctor` to check that everything is green. `~/.agentwatch/plugin-data/bin/agentwatch link` puts `agentwatch` on your PATH (in `~/.local/bin`).
 
 ## What it runs and sends
 
-On the first session start, `scripts/aw.sh` downloads the `agentwatch` binary for your platform from this repository's GitHub Release. It checks the file against the SHA-256 in `scripts/checksums.txt`, which ships inside this plugin, and refuses a file that does not match.
+On first use, `scripts/aw.sh` downloads the `agentwatch` binary for your platform from this repository's GitHub Release. It checks the file against the SHA-256 in `scripts/checksums.txt`, which ships inside this plugin, and refuses a file that does not match.
 
 The binary talks only to your AgentWatch API (default `https://api.agentwatch.in`).
 

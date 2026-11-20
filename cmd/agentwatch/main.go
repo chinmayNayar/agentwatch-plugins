@@ -7,6 +7,7 @@
 //	agentwatch login                   sign this machine in (device code)
 //	agentwatch logout                  forget this machine's credential
 //	agentwatch status                  mode, sign-in, passports, queue
+//	agentwatch link [--dir DIR]        put `agentwatch` on PATH (~/.local/bin)
 //	agentwatch mode [dry_run|enforce]  show or change the mode (asks before enforcing)
 //	agentwatch mcp                     stdio MCP server (read-only tools)
 //	agentwatch version
@@ -21,7 +22,6 @@ import (
 	"fmt"
 	"io"
 	"os"
-	"os/exec"
 	"path/filepath"
 	"runtime"
 	"strings"
@@ -36,9 +36,9 @@ import (
 	"github.com/chinmayNayar/agentwatch-plugins/internal/flush"
 	"github.com/chinmayNayar/agentwatch-plugins/internal/hook"
 	"github.com/chinmayNayar/agentwatch-plugins/internal/install"
+	"github.com/chinmayNayar/agentwatch-plugins/internal/login"
 	"github.com/chinmayNayar/agentwatch-plugins/internal/mcp"
-	"github.com/chinmayNayar/agentwatch-plugins/internal/spool"
-	"github.com/chinmayNayar/agentwatch-plugins/internal/state"
+	"github.com/chinmayNayar/agentwatch-plugins/internal/status"
 )
 
 var commit = "dev"
@@ -77,6 +77,8 @@ func run(args []string, stdin io.Reader, stdout, stderr io.Writer) int {
 		return 0
 	case "status":
 		return cmdStatus(rest, stdout)
+	case "link":
+		return cmdLink(rest, stdout, stderr)
 	case "mode":
 		return cmdMode(rest, stdin, stdout, stderr)
 	case "mcp":
@@ -107,6 +109,7 @@ Usage:
   agentwatch doctor [--json]
   agentwatch status [--json]
   agentwatch mode [dry_run|enforce] [--fail-closed|--fail-open] [--strict on|off] [--yes]
+  agentwatch link [--dir DIR] [--force]
   agentwatch mcp
   agentwatch logout
   agentwatch version
@@ -244,7 +247,7 @@ func cmdInstall(args []string, stdin io.Reader, stdout, stderr io.Writer) int {
 	if !*dry {
 		fmt.Fprintf(stdout, "Mode: %s, %s. Check with: agentwatch doctor\n", cfg.Mode, cfg.FailMode)
 		if _, err := config.LoadCredential(); err != nil {
-			fmt.Fprintln(stdout, "Not signed in yet: run agentwatch login")
+			fmt.Fprintln(stdout, "Not signed in yet. To sign in, "+config.SignInHint())
 		}
 	}
 	return 0
@@ -330,48 +333,84 @@ func cmdDoctor(args []string, stdout io.Writer) int {
 }
 
 func cmdStatus(args []string, stdout io.Writer) int {
-	cfg := config.Load()
-	cred, cerr := config.LoadCredential()
-	sp := spool.New(config.SpoolDir())
-	st := map[string]any{
-		"mode": cfg.Mode, "mode_source": cfg.Sources["mode"], "fail_mode": cfg.FailMode, "strict": cfg.Strict,
-		"api_url": cfg.APIURL, "dashboard": mcp.DashboardURL(cfg.APIURL), "signed_in": cerr == nil,
-		"queued": sp.Pending(), "dropped": sp.Dropped(), "version": client.Version,
-	}
-	if cred != nil {
-		st["credential"] = cred.Kind + " (" + cred.Source + ")"
-		if cred.DeviceID != "" {
-			st["device_id"] = cred.DeviceID
-		}
-	}
-	if cfg.DeviceID != "" {
-		st["device_id"] = cfg.DeviceID
-	}
-	agents := map[string]any{}
-	for _, c := range adapters.Clients {
-		a := cfg.AgentName(c)
-		if p, age := state.LoadPolicy(a); p != nil {
-			agents[c] = map[string]any{"agent": a, "policy_mode": p.PolicyMode, "isolated": p.Isolated, "cached_seconds_ago": int(age.Seconds())}
-		}
-	}
-	st["agents"] = agents
+	r := status.Build(mcp.DashboardURL)
 	if len(args) > 0 && args[0] == "--json" {
-		_ = json.NewEncoder(stdout).Encode(st)
+		_ = json.NewEncoder(stdout).Encode(r)
 		return 0
 	}
-	fmt.Fprintf(stdout, "AgentWatch %s  mode %s (%s), %s, strict %v\n", client.Version, cfg.Mode, cfg.Sources["mode"], cfg.FailMode, cfg.Strict)
-	fmt.Fprintf(stdout, "API %s   console %s\n", cfg.APIURL, st["dashboard"])
-	if cerr != nil {
-		fmt.Fprintln(stdout, "Not signed in: run agentwatch login")
-	} else {
-		fmt.Fprintf(stdout, "Signed in with a %s\n", st["credential"])
-	}
-	for c, a := range agents {
-		m := a.(map[string]any)
-		fmt.Fprintf(stdout, "  %-12s %v passport %v isolated=%v\n", c, m["agent"], m["policy_mode"], m["isolated"])
-	}
-	fmt.Fprintf(stdout, "Queued events: %d, dropped: %d\n", st["queued"], st["dropped"])
+	fmt.Fprint(stdout, status.Text(r))
 	return 0
+}
+
+// cmdLink puts `agentwatch` on PATH: a symlink in ~/.local/bin (or --dir) to
+// this binary, through the plugin's stable link when there is one so it
+// follows plugin updates. It never replaces a file it did not create.
+func cmdLink(args []string, stdout, stderr io.Writer) int {
+	fs := flag.NewFlagSet("link", flag.ContinueOnError)
+	fs.SetOutput(stderr)
+	dir := fs.String("dir", filepath.Join(config.UserHome(), ".local", "bin"), "directory on PATH")
+	force := fs.Bool("force", false, "replace an existing agentwatch symlink that points elsewhere")
+	if err := fs.Parse(args); err != nil {
+		return 2
+	}
+	if runtime.GOOS == "windows" {
+		fmt.Fprintln(stderr, "link is for macOS and Linux. On Windows, add this folder to PATH instead:", filepath.Dir(selfPath()))
+		return 1
+	}
+	target := selfPath()
+	stable := filepath.Join(filepath.Dir(target), "agentwatch")
+	if r, err := filepath.EvalSymlinks(stable); err == nil && r == target {
+		target = stable
+	}
+	if err := os.MkdirAll(*dir, 0o755); err != nil {
+		fmt.Fprintln(stderr, err)
+		return 1
+	}
+	dst := filepath.Join(*dir, "agentwatch")
+	if fi, err := os.Lstat(dst); err == nil {
+		cur, _ := os.Readlink(dst)
+		switch {
+		case fi.Mode()&os.ModeSymlink == 0:
+			fmt.Fprintf(stderr, "%s exists and is not a symlink; not replacing it.\n", dst)
+			return 1
+		case cur == target:
+			fmt.Fprintf(stdout, "Already linked: %s -> %s\n", dst, target)
+			return linkPathNote(*dir, stdout)
+		case !*force:
+			fmt.Fprintf(stderr, "%s already points to %s; run with --force to replace it.\n", dst, cur)
+			return 1
+		}
+		if err := os.Remove(dst); err != nil {
+			fmt.Fprintln(stderr, err)
+			return 1
+		}
+	}
+	if err := os.Symlink(target, dst); err != nil {
+		fmt.Fprintln(stderr, err)
+		return 1
+	}
+	fmt.Fprintf(stdout, "Linked %s -> %s\n", dst, target)
+	return linkPathNote(*dir, stdout)
+}
+
+func linkPathNote(dir string, stdout io.Writer) int {
+	if status.LocalBinOnPath(dir) {
+		fmt.Fprintln(stdout, "You can now run: agentwatch status")
+		return 0
+	}
+	fmt.Fprintf(stdout, "%s is not on your PATH yet. Add this line to ~/.zshrc (or ~/.bashrc), then open a new terminal:\n    export PATH=\"%s:$PATH\"\n", dir, dir)
+	return 0
+}
+
+func selfPath() string {
+	exe, err := os.Executable()
+	if err != nil {
+		return "agentwatch"
+	}
+	if r, err := filepath.EvalSymlinks(exe); err == nil {
+		return r
+	}
+	return exe
 }
 
 func confirm(stdin io.Reader, w io.Writer, prompt, want string) bool {
@@ -487,26 +526,33 @@ func cmdLogin(args []string, stdin io.Reader, stdout, stderr io.Writer) int {
 		return 2
 	}
 	cfg := config.Load()
-	fileCfg := &config.Config{}
-	if b, err := os.ReadFile(config.Path()); err == nil {
-		_ = json.Unmarshal(b, fileCfg)
-	}
-	if *apiURL != "" {
-		if err := config.ValidAPIURL(*apiURL); err != nil {
-			fmt.Fprintln(stderr, err)
-			return 2
+	if *apiURL != "" || *name != "" {
+		// Persist the person's choices before signing in, so the flow uses them.
+		fileCfg := &config.Config{}
+		if b, err := os.ReadFile(config.Path()); err == nil {
+			_ = json.Unmarshal(b, fileCfg)
 		}
-		cfg.APIURL = strings.TrimRight(*apiURL, "/")
-		fileCfg.APIURL = cfg.APIURL
+		if *apiURL != "" {
+			if err := config.ValidAPIURL(*apiURL); err != nil {
+				fmt.Fprintln(stderr, err)
+				return 2
+			}
+			cfg.APIURL = strings.TrimRight(*apiURL, "/")
+			fileCfg.APIURL = cfg.APIURL
+		}
+		if *name != "" {
+			cfg.DeviceName, fileCfg.DeviceName = *name, *name
+		}
+		if err := fileCfg.Save(); err != nil {
+			fmt.Fprintln(stderr, "could not save config:", err)
+			return 1
+		}
 	}
-	if *name != "" {
-		cfg.DeviceName, fileCfg.DeviceName = *name, *name
-	}
-	api := client.New(cfg.APIURL, "")
-	ctx, cancel := context.WithTimeout(context.Background(), 15*time.Minute)
+	ctx, cancel := context.WithTimeout(context.Background(), 20*time.Minute)
 	defer cancel()
 
 	if *apiKey || *tokenStdin {
+		var tok string
 		if isTTY(stdin) {
 			fmt.Fprint(stderr, "Paste the key (input hidden): ")
 			if f, ok := stdin.(*os.File); ok {
@@ -515,110 +561,54 @@ func cmdLogin(args []string, stdin io.Reader, stdout, stderr io.Writer) int {
 				if err != nil {
 					return 1
 				}
-				return saveToken(ctx, api, cfg, fileCfg, strings.TrimSpace(string(b)), "", stdout, stderr)
+				tok = string(b)
 			}
+		} else {
+			b, _ := io.ReadAll(io.LimitReader(stdin, 4096))
+			tok = string(b)
 		}
-		b, _ := io.ReadAll(io.LimitReader(stdin, 4096))
-		return saveToken(ctx, api, cfg, fileCfg, strings.TrimSpace(string(b)), "", stdout, stderr)
+		r, err := login.Save(ctx, cfg, strings.TrimSpace(tok), "", "")
+		if err != nil {
+			fmt.Fprintln(stderr, err)
+			return 1
+		}
+		printSignedIn(stdout, r, cfg)
+		return 0
 	}
 
-	dc, err := api.StartDeviceCode(ctx, cfg.DeviceName, cfg.UserLabel, config.OSArch())
+	f, err := login.Start(ctx, cfg)
 	if err != nil {
-		fmt.Fprintln(stderr, "could not start sign-in:", err)
+		fmt.Fprintln(stderr, err)
 		return 1
 	}
-	fmt.Fprintf(stdout, "To sign in this machine, open:\n\n    %s\n\nand enter the code:  %s\n\n", dc.VerificationURI, dc.UserCode)
-	if !*noBrowser {
-		openBrowser(dc.VerificationURIComplete)
+	fmt.Fprintf(stdout, "To sign in this machine, open:\n\n    %s\n\nand enter the code:  %s\n\n", f.Pending.VerificationURI, f.Pending.UserCode)
+	if !*noBrowser && login.OpenBrowser(f.Pending.CompleteURI) {
+		fmt.Fprintln(stdout, "(Opened it in your browser.) Waiting for approval...")
+	} else {
+		fmt.Fprintln(stdout, "Waiting for approval...")
 	}
-	interval := time.Duration(dc.Interval) * time.Second
-	if interval < time.Second {
-		interval = 5 * time.Second
-	}
-	deadline := time.Now().Add(time.Duration(dc.ExpiresIn) * time.Second)
-	for time.Now().Before(deadline) {
-		time.Sleep(interval)
-		tok, err := api.PollDeviceToken(ctx, dc.DeviceCode)
-		if err == nil {
-			fileCfg.DeviceID = tok.DeviceID
-			if tok.UserLabel != "" && fileCfg.UserLabel == "" {
-				fileCfg.UserLabel = tok.UserLabel
-			}
-			return saveToken(ctx, api, cfg, fileCfg, tok.AccessToken, tok.DeviceID, stdout, stderr)
-		}
-		var ae *client.Error
-		if errors.As(err, &ae) {
-			switch ae.Code {
-			case "authorization_pending":
-				continue
-			case "slow_down":
-				interval += 5 * time.Second
-				continue
-			case "access_denied":
-				fmt.Fprintln(stderr, "Sign-in was refused in the console.")
-				return 1
-			case "expired_token":
-				fmt.Fprintln(stderr, "The code expired. Run agentwatch login again.")
-				return 1
-			}
-		}
-		if client.IsUnavailable(err) {
-			continue
-		}
-		fmt.Fprintln(stderr, "sign-in failed:", err)
-		return 1
-	}
-	fmt.Fprintln(stderr, "The code expired. Run agentwatch login again.")
-	return 1
-}
-
-func saveToken(ctx context.Context, api *client.Client, cfg, fileCfg *config.Config, token, deviceID string, stdout, stderr io.Writer) int {
-	if token == "" {
-		fmt.Fprintln(stderr, "no key given")
-		return 2
-	}
-	api.Token = token
-	vctx, cancel := context.WithTimeout(ctx, 10*time.Second)
-	defer cancel()
-	if _, err := api.Policy(vctx, cfg.AgentName("claude-code")); err != nil {
-		fmt.Fprintln(stderr, "that key was not accepted:", err)
-		return 1
-	}
-	kind := "api_key"
-	if strings.HasPrefix(token, "awdv_") {
-		kind = "device"
-	}
-	where, err := config.SaveCredential(&config.Credential{Token: token, Kind: kind, DeviceID: deviceID, APIURL: cfg.APIURL})
+	r, err := f.Wait(ctx)
 	if err != nil {
-		fmt.Fprintln(stderr, "could not store the credential:", err)
+		switch {
+		case errors.Is(err, login.ErrDenied):
+			fmt.Fprintln(stderr, "Sign-in was refused in the console.")
+		case errors.Is(err, login.ErrExpired), errors.Is(err, context.DeadlineExceeded):
+			fmt.Fprintf(stderr, "The code expired. Run %s login again.\n", config.Command())
+		default:
+			fmt.Fprintln(stderr, err)
+		}
 		return 1
 	}
-	if fileCfg.Mode == "" {
-		fileCfg.Mode = config.ModeDryRun
-	}
-	if fileCfg.FailMode == "" {
-		fileCfg.FailMode = config.FailOpen
-	}
-	if fileCfg.APIURL == "" {
-		fileCfg.APIURL = cfg.APIURL
-	}
-	if err := fileCfg.Save(); err != nil {
-		fmt.Fprintln(stderr, "could not save config:", err)
-		return 1
-	}
-	fmt.Fprintf(stdout, "Signed in (%s, stored in the %s). Mode: %s.\nNext: agentwatch install all   then   agentwatch doctor\n", kind, where, fileCfg.Mode)
+	printSignedIn(stdout, r, cfg)
 	return 0
 }
 
-func openBrowser(u string) {
-	var cmd *exec.Cmd
-	switch runtime.GOOS {
-	case "darwin":
-		cmd = exec.Command("open", u)
-	case "windows":
-		cmd = exec.Command("rundll32", "url.dll,FileProtocolHandler", u)
-	default:
-		cmd = exec.Command("xdg-open", u)
+func printSignedIn(stdout io.Writer, r *login.Result, cfg *config.Config) {
+	fmt.Fprintf(stdout, "Signed in (%s, stored in the %s). Passport %s: %s. Mode: %s.\n", r.Kind, login.StoreWords(r.Where), r.Agent, r.Passport, cfg.Mode)
+	if config.InPlugin() {
+		fmt.Fprintln(stdout, "The Claude Code plugin uses this sign-in from the next tool call. Check with /agentwatch:status.")
+		return
 	}
-	_ = cmd.Start()
+	cmd := config.Command()
+	fmt.Fprintf(stdout, "Next: %s install all   then   %s doctor\n", cmd, cmd)
 }

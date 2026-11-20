@@ -1,0 +1,182 @@
+{
+  "version": "0.1.2",
+  "claude": "2.1.329 (Claude Code)",
+  "ran_at": "2026-11-20T07:16:20Z",
+  "results": [
+    {
+      "check": "A1 install from the local marketplace into an empty HOME",
+      "ok": true,
+      "detail": "marketplace=0 install=0 version=0.1.2 root=$WORK/a-home/.claude/plugins/cache/agentwatch/agentwatch/0.1.2 watch\"...\u2714 Successfully installed plugin: agentwatch@agentwatch (scope: user)\n3 userConfig options not yet set \u2014 run /plugin configure agentwatch@agentwatch in Claude Code, or pass --config KEY=VALUE. "
+    },
+    {
+      "check": "A1 plugin data starts empty",
+      "ok": true,
+      "detail": "$WORK/a-home/.claude/plugins/data/agentwatch-agentwatch"
+    },
+    {
+      "check": "A2 first session: MCP server connects before/while the binary downloads",
+      "ok": true,
+      "detail": "in 1.9s tools=['agentwatch_status', 'agentwatch_runs', 'agentwatch_findings', 'agentwatch_posture', 'agentwatch_mode', 'agentwatch_doctor', 'agentwatch_login']"
+    },
+    {
+      "check": "A2 exactly one download, checksum-verified",
+      "ok": true,
+      "detail": "downloads=['agentwatch-0.1.2-darwin-arm64']"
+    },
+    {
+      "check": "A2 SessionStart says not signed in, with /agentwatch:setup",
+      "ok": true,
+      "detail": "{\"systemMessage\":\"AgentWatch is installed but this machine is not signed in. Events are kept on this machine and sent after sign-in. To sign in, run /agentwatch:setup in Claude Code (it opens the approval page and waits), or in a terminal: $TMP/..."
+    },
+    {
+      "check": "A3 PreToolUse before sign-in: no decision (dry_run, fail-open)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "A3 status before sign-in",
+      "ok": true,
+      "detail": "AgentWatch 0.1.2\nMode:       dry_run (default): records what would be blocked; blocks only denied tools and self-protection. fail_open, strict off.\nSigned in:  no. To sign in, run /agentwatch:setup in Claude Code (it opens the approval page and waits), or in a terminal: $WORK/a-home/.claude/plugins/data/agentwatch-agentwatch/bin/agentwatch login\nPassport:   sign in to load your passport.\nQueued:     3 (kept on this machine; sent after sign-in); dropped 0\nAPI:        http://localhost"
+    },
+    {
+      "check": "A3 status names a terminal command that works",
+      "ok": true,
+      "detail": "$WORK/a-home/.claude/plugins/data/agentwatch-agentwatch/bin/agentwatch"
+    },
+    {
+      "check": "A4 setup shows the code and the approval page",
+      "ok": true,
+      "detail": "Open the AgentWatch approval page in a browser.\nPage: http://localhost:3000/devices/activate?code=2UAC-HRA6\nCode: 2UAC-HRA6\nSign in to the console if asked, check that the page shows the code 2UAC-HRA6, and approve it. The code expires at 12:55.\nNext: call agentwatch_login with wait=true to wait for the approval."
+    },
+    {
+      "check": "A4 the person approves the code in the console (API)",
+      "ok": true,
+      "detail": "200 {'status': 'approved', 'device_name': '<host>', 'os': 'darwin-arm64', 'user_label': '<user>'}"
+    },
+    {
+      "check": "A4 setup reports signed in",
+      "ok": true,
+      "detail": "Signed in as device 143f53c0-b925-4c83-9062-896995e16f7e. The token is stored in the file $WORK/a-home/.agentwatch/credentials (readable only by you; this machine has no usable keychain).\nPassport claude-code@<user>: dry_run. Mode: dry_run (default).\nEvents queued while signed out are being sent now. Runs appear at http://localhost:3000/runs."
+    },
+    {
+      "check": "A5 status shows signed in with a passport",
+      "ok": true,
+      "detail": "AgentWatch 0.1.2\nMode:       dry_run (~/.agentwatch/config.json): records what would be blocked; blocks only denied tools and self-protection. fail_open, strict off.\nSigned in:  yes (device in the file, device 143f53c0-b925-4c83-9062-896995e16f7e)\nPassport:   claude-code@<user>: dry_run (cached 5s ago)\nQueued:     3 (sending in the background); dropped 0\nHooks:      running (last recorded 10s ago)\nAPI:        http://localhost:8000   console http://localhost:3000\nCLI:        $TMP/..."
+    },
+    {
+      "check": "A5 the events queued before sign-in were sent",
+      "ok": true,
+      "detail": "queued before=3 now=0"
+    },
+    {
+      "check": "A5 the device is listed active",
+      "ok": true,
+      "detail": "device 143f53c0-b925-4c83-9062-896995e16f7e: active v0.1.2"
+    },
+    {
+      "check": "A5 a claude-code@ run exists with the queued steps",
+      "ok": true,
+      "detail": "agent=claude-code@<user> run=e824888e-be9f-4df1-9404-a071b5658a85 steps=2"
+    },
+    {
+      "check": "A6 dry_run PreToolUse decided by the server",
+      "ok": true,
+      "detail": "[{\"class\": \"shell\", \"client\": \"claude-code\", \"decision\": \"allow\", \"event\": \"PreToolUse\", \"fail_mode\": \"fail_open\", \"latency_ms\": 57, \"mode\": \"dry_run\", \"mode_source\": \"config file\", \"server\": \"allow\", \"source\": \"server\", \"timings\": {\"ensure_run_us\": 22757, \"preflight_us\": 17840, \"state_us\": 648}, \"tool\": \"Bash\", \"ts\": \"2026-11-20T07:15:23.803806Z\", \"would_have\": \"\"}]"
+    },
+    {
+      "check": "A6 the step reached the API",
+      "ok": true,
+      "detail": "steps 2 -> 3"
+    },
+    {
+      "check": "A7 read-only find on the plugin dir allowed",
+      "ok": true,
+      "detail": "(no decision)"
+    },
+    {
+      "check": "A7 the exact command from the first install, with ~, allowed",
+      "ok": true,
+      "detail": "(no decision)"
+    },
+    {
+      "check": "A7 rm on the plugin dir denied",
+      "ok": true,
+      "detail": "{\"hookSpecificOutput\":{\"hookEventName\":\"PreToolUse\",\"permissionDecision\":\"deny\",\"permissionDecisionReason\":\"AgentWatch self-protection: this command would modify ~/.claude/plugins/.\"}}"
+    },
+    {
+      "check": "A7 cat of the credential denied",
+      "ok": true,
+      "detail": "{\"hookSpecificOutput\":{\"hookEventName\":\"PreToolUse\",\"permissionDecision\":\"deny\",\"permissionDecisionReason\":\"AgentWatch self-protection: agents may not read AgentWatch's credential (~/.agentwatch/credentials). Use /agentwatch:status to see whether this machine is signed in.\"}}"
+    },
+    {
+      "check": "A7 Read tool on the credential denied",
+      "ok": true,
+      "detail": "{\"hookSpecificOutput\":{\"hookEventName\":\"PreToolUse\",\"permissionDecision\":\"deny\",\"permissionDecisionReason\":\"AgentWatch self-protection: agents may not read AgentWatch's credential ($WORK/a-home/.agentwatch/credentials). Use /agentwatch:status to see whether this machine is signed in.\"}}"
+    },
+    {
+      "check": "A7 the binary is still there",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "B1 the plugin's MCP server is connected in a real session",
+      "ok": true,
+      "detail": "{\"plugin:agentwatch:agentwatch\": \"connected\", \"plugin:engineering:slack\": \"needs-auth\", \"plugin:engineering:linear\": \"needs-auth\", \"plugin:engineering:atlassian\": \"needs-auth\", \"plugin:engineering:notion\": \"needs-auth\", \"plugin:engineering:pagerduty\": \"needs-auth\", \"plugin:engineering:datadog\": \"needs-auth\", \"plugin:engineering:google calendar\": \"failed\", \"plugin:engineering:gmail\": \"failed\", \"claude.ai Claude Docs\": \"connected\"}"
+    },
+    {
+      "check": "B1 only the fresh copy of the plugin is loaded",
+      "ok": true,
+      "detail": "[\"agentwatch\", \"engineering\", \"security-guidance\", \"cc-plugin-agents-md\", \"cc-plugin-telemetry\", \"cc-plugin-privacy\", \"cc-plugin-plugin-authoring\", \"cc-plugin-easel\"]"
+    },
+    {
+      "check": "B2 /agentwatch:setup signed the machine in",
+      "ok": true,
+      "detail": "approved=['T4ZU-TVKX'] final=This machine is signed in to AgentWatch.\n\n- **Signed in:** device `a2c70a55-8135-4263-9dad-75218c291cdb`, with the token in the OS keychain.\n- **Mode:** `dry_run` (from `~/.agentwatch/config.json`). It records what would be blocked and only blocks denied tools and self-protection.\n- **Queue:** 0 eve"
+    },
+    {
+      "check": "B2 the token is in the OS keychain",
+      "ok": true,
+      "detail": "device in the keychain"
+    },
+    {
+      "check": "B2 no credentials file was written",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "B3 dry_run PreToolUse decided by the server",
+      "ok": true,
+      "detail": "[{\"class\": \"shell\", \"client\": \"claude-code\", \"decision\": \"allow\", \"event\": \"PreToolUse\", \"fail_mode\": \"fail_open\", \"latency_ms\": 45, \"mode\": \"dry_run\", \"mode_source\": \"config file\", \"server\": \"allow\", \"source\": \"server\", \"timings\": {\"ensure_run_us\": 107, \"preflight_us\": 22085, \"state_us\": 896}, \"tool\": \"Bash\", \"ts\": \"2026-11-20T07:15:41.569412Z\", \"would_have\": \"\"}]"
+    },
+    {
+      "check": "B3 the session's run and steps are on the API",
+      "ok": true,
+      "detail": "agent=claude-code@<user> run=071cefd1-735d-4fe7-8063-475efcb81fbf steps=3"
+    },
+    {
+      "check": "B3 the device is active",
+      "ok": true,
+      "detail": "a2c70a55-8135-4263-9dad-75218c291cdb active"
+    },
+    {
+      "check": "B4 read-only find on ~/.claude/plugins allowed",
+      "ok": true,
+      "detail": "[{\"class\": \"shell\", \"client\": \"claude-code\", \"decision\": \"allow\", \"event\": \"PreToolUse\", \"fail_mode\": \"fail_open\", \"latency_ms\": 43, \"mode\": \"dry_run\", \"mode_source\": \"config file\", \"server\": \"allow\", \"source\": \"server\", \"timings\": {\"ensure_run_us\": 100, \"preflight_us\": 22056, \"state_us\": 752}, \"tool\": \"Bash\", \"ts\": \"2026-11-20T07:15:49.216615Z\", \"would_have\": \"\"}]"
+    },
+    {
+      "check": "B4 rm on ~/.claude/plugins denied by AgentWatch",
+      "ok": true,
+      "detail": "[{\"class\": \"shell\", \"client\": \"claude-code\", \"decision\": \"deny\", \"event\": \"PreToolUse\", \"fail_mode\": \"fail_open\", \"latency_ms\": 0, \"mode\": \"dry_run\", \"mode_source\": \"config file\", \"server\": \"\", \"source\": \"self_protect\", \"timings\": null, \"tool\": \"Bash\", \"ts\": \"2026-11-20T07:15:55.803466Z\", \"would_have\": \"\"}]"
+    },
+    {
+      "check": "B4 cat of the credential denied",
+      "ok": true,
+      "detail": "[{\"class\": \"shell\", \"client\": \"claude-code\", \"decision\": \"deny\", \"event\": \"PreToolUse\", \"fail_mode\": \"fail_open\", \"latency_ms\": 0, \"mode\": \"dry_run\", \"mode_source\": \"config file\", \"server\": \"\", \"source\": \"self_protect\", \"timings\": null, \"tool\": \"Bash\", \"ts\": \"2026-11-20T07:16:03.874135Z\", \"would_have\": \"\"}]"
+    },
+    {
+      "check": "B4 Read of the credential denied",
+      "ok": true,
+      "detail": "[{\"class\": \"read\", \"client\": \"claude-code\", \"decision\": \"deny\", \"event\": \"PreToolUse\", \"fail_mode\": \"fail_open\", \"latency_ms\": 0, \"mode\": \"dry_run\", \"mode_source\": \"config file\", \"server\": \"\", \"source\": \"self_protect\", \"timings\": null, \"tool\": \"Read\", \"ts\": \"2026-11-20T07:16:15.706284Z\", \"would_have\": \"\"}]"
+    }
+  ]
+}

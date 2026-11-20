@@ -102,7 +102,7 @@ func send(ctx context.Context, api *client.Client, cfg *config.Config, r spool.R
 	}
 	switch client.StatusOf(err) {
 	case 401:
-		return spool.Retry // signed out: keep until `agentwatch login`
+		return spool.Retry // signed out: keep until the machine signs in again
 	case 409:
 		return spool.Permanent // run killed: the server refuses more steps by design
 	}

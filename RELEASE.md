@@ -20,6 +20,7 @@
    python3 scripts/guard_sweep.py
    claude plugin validate --strict ./plugins/claude-code
    claude plugin validate --strict .
+   AW_E2E_ADMIN_KEY=... python3 tests/e2e/fresh_install_e2e.py   # local API; see the file's docstring
    ```
    Also run gitleaks over the tree and history.
 4. **Tag and push:** `git tag -a v<version> -m "v<version>: <one-line scope>"`, then `git push origin v<version>`. For v0.1.1 the message is `v0.1.1: preview: Claude Code + VS Code` (v0.1.0 was tagged but its release failed; a bad tag is never moved or deleted, a new patch release is cut), and the release is marked as a pre-release. `release.yml` then does the following:

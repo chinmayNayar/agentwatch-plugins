@@ -16,6 +16,9 @@ MUTATIONS = [
     ("self-protect off", "internal/selfprotect/selfprotect.go", "if ev.Kind != event.PreTool {", "if true {", "./internal/selfprotect/ ./internal/hook/"),
     ("panic not recovered", "internal/hook/hook.go", "if r := recover(); r != nil {", "if r := recover(); r != nil && false {", "./internal/hook/"),
     ("spool keeps duplicates on retry", "internal/spool/spool.go", "\t\t\tif stop {\n\t\t\t\tbreak\n\t\t\t}", "", "./internal/spool/"),
+    ("credential reads allowed", "internal/selfprotect/selfprotect.go", "if k := s.credKind(a, cwd); k != credNone {", "if k := s.credKind(a, cwd); false && k != credNone {", "./internal/selfprotect/"),
+    ("shell write targets ignored", "internal/selfprotect/selfprotect.go", "for _, t := range writeTargets(args, cwd) {", "for _, t := range writeTargets(nil, cwd) {", "./internal/selfprotect/"),
+    ("shim download lock removed", "plugins/claude-code/scripts/aw.sh", '  if ! mkdir "$lock" 2>/dev/null; then\n    lock_alive && exit 0\n    mkdir "$lock" 2>/dev/null || exit 0\n  fi', '  mkdir -p "$lock"', "-run TestFirstSessionRace ./internal/shimtest/"),
 ]
 
 def main() -> int:

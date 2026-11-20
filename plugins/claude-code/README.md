@@ -15,11 +15,15 @@ claude plugin marketplace add chinmayNayar/agentwatch-plugins
 claude plugin install agentwatch@agentwatch
 ```
 
-Then sign the machine in, either by running `agentwatch login` (device code, recommended) or by setting the plugin's `api_key` option in `/config`. This needs Claude Code 2.1.271 or later.
+Then, in Claude Code, run **`/agentwatch:setup`**: it opens the AgentWatch approval page, shows the code, waits while you approve it and stores the token in your OS keychain. (Or set the plugin's `api_key` option.) Until you sign in, the plugin still runs: it queues events on your machine and sends them after sign-in.
+
+Needs Claude Code 2.1.197 or later (tested on 2.1.197 and 2.1.329).
+
+The binary is not put on your PATH. To use it from a terminal, run it by its full path, `~/.claude/plugins/data/agentwatch-agentwatch/bin/agentwatch`, or let `/agentwatch:setup` link it into `~/.local/bin` (it asks first).
 
 ## What it runs and sends
 
-On the first session start, `scripts/aw.sh` downloads the `agentwatch` binary for your platform from this repository's GitHub Release (`github.com/chinmayNayar/agentwatch-plugins/releases`). It checks the file against the SHA-256 in `scripts/checksums.txt`, which ships inside this plugin, and refuses a file that does not match.
+On first use (the first session start, MCP server start or hook, whichever comes first), `scripts/aw.sh` downloads the `agentwatch` binary for your platform from this repository's GitHub Release (`github.com/chinmayNayar/agentwatch-plugins/releases`). One download serves every process that starts at once. It checks the file against the SHA-256 in `scripts/checksums.txt`, which ships inside this plugin, and refuses a file that does not match.
 
 The binary talks only to your AgentWatch API (`api_url`, default `https://api.agentwatch.in`).
 
@@ -38,11 +42,11 @@ The binary talks only to your AgentWatch API (`api_url`, default `https://api.ag
 |---|---|---|
 | `api_url` | `https://api.agentwatch.in` | Your AgentWatch API |
 | `api_key` | empty | Optional: an AgentWatch API key, kept in your OS keychain |
-| `mode` | `dry_run` | `enforce` blocks denied, held and isolated calls |
+| `mode` | `dry_run` | type `enforce` to block denied, held and isolated calls; anything else is `dry_run` |
 
 ## Skills
 
-`/agentwatch:status`, `/agentwatch:runs`, `/agentwatch:findings`, `/agentwatch:posture`, `/agentwatch:mode`, `/agentwatch:doctor`.
+`/agentwatch:setup` (sign in), `/agentwatch:status`, `/agentwatch:runs`, `/agentwatch:findings`, `/agentwatch:posture`, `/agentwatch:mode`, `/agentwatch:doctor`.
 
 ## What it cannot do
 

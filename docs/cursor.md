@@ -7,7 +7,7 @@ Two ways in:
 - **Plugin:** `plugins/cursor`. It adds hooks and the read-only MCP server. On first use it downloads the pinned binary into `~/.agentwatch/plugin-data`.
 - **Settings file:** `agentwatch install cursor` (or the editor extension's Connect panel) writes `~/.cursor/hooks.json`, merged with your own hooks and with a backup.
 
-Sign in with `agentwatch login`.
+Sign in with `agentwatch login` (plugin install: `~/.agentwatch/plugin-data/bin/agentwatch login`, since the plugin's binary is not on PATH; `... link` adds it to `~/.local/bin`).
 
 ## Behaviour
 

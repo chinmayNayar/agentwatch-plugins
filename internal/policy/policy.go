@@ -4,6 +4,7 @@
 package policy
 
 import (
+	"errors"
 	"fmt"
 	"path"
 	"strings"
@@ -179,8 +180,10 @@ func FromFailure(cfg *config.Config, err error) event.Verdict {
 		}
 	}
 	what := "AgentWatch could not be reached"
-	if st := client.StatusOf(err); st == 401 || st == 403 {
-		what = "AgentWatch rejected this machine's credentials (run `agentwatch login`)"
+	if errors.Is(err, config.ErrNoCredential) {
+		what = "This machine is not signed in to AgentWatch (to sign in, " + config.SignInHint() + ")"
+	} else if st := client.StatusOf(err); st == 401 || st == 403 {
+		what = "AgentWatch rejected this machine's credentials (sign in again: " + config.SignInHint() + ")"
 	}
 	if cfg.Mode == config.ModeEnforce && cfg.FailMode == config.FailClosed {
 		return event.Verdict{Decision: event.Deny, Source: event.SrcFailMode,

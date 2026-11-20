@@ -7,7 +7,8 @@ permissions:
   contents: read
 env:
   GO_VERSION: "1.27.3"
-  CLAUDE_CODE_VERSION: "2.1.328"
+  CLAUDE_CODE_VERSION: "2.1.329"
+  CLAUDE_CODE_OLDEST: "2.1.197"
 
 jobs:
   go:
@@ -72,6 +73,10 @@ jobs:
       - run: npm install -g @anthropic-ai/claude-code@${{ env.CLAUDE_CODE_VERSION }}
       - run: claude plugin validate --strict ./plugins/claude-code
       - run: claude plugin validate --strict .
+      - name: the oldest supported Claude Code accepts the plugin
+        run: |
+          npm install --prefix "$RUNNER_TEMP/cc-old" @anthropic-ai/claude-code@${{ env.CLAUDE_CODE_OLDEST }}
+          "$RUNNER_TEMP/cc-old/node_modules/.bin/claude" plugin validate ./plugins/claude-code
 
   vscode:
     runs-on: ubuntu-latest

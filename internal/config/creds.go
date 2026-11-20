@@ -56,13 +56,15 @@ func LoadCredential() (*Credential, error) {
 	}
 	var c Credential
 	if json.Unmarshal(b, &c) != nil || c.Token == "" {
-		return nil, errors.New("credentials file is corrupt; run agentwatch login")
+		return nil, errors.New("credentials file is corrupt; sign in again")
 	}
 	c.Source = "file"
 	return &c, nil
 }
 
-var ErrNoCredential = errors.New("not signed in; run agentwatch login")
+// ErrNoCredential: this machine has not signed in. Callers that talk to a
+// person add SignInHint(), which names a command that works on this machine.
+var ErrNoCredential = errors.New("not signed in")
 
 // SaveCredential stores in the OS keychain, falling back to a 0600 file.
 // Returns where it went.

@@ -67,7 +67,7 @@ func Run(newClient func(string, string) *client.Client) Report {
 	}
 	cred, cerr := config.LoadCredential()
 	if cerr != nil {
-		add(Check{Name: "credentials", OK: false, Detail: cerr.Error()})
+		add(Check{Name: "credentials", OK: false, Detail: cerr.Error() + ". To sign in, " + config.SignInHint()})
 	} else {
 		add(Check{Name: "credentials", OK: true, Detail: cred.Kind + " in " + cred.Source})
 	}
@@ -83,7 +83,11 @@ func Run(newClient func(string, string) *client.Client) Report {
 	if cred != nil {
 		api.Token = cred.Token
 		if p, err := api.Policy(ctx, cfg.AgentName("claude-code")); err != nil {
-			add(Check{Name: "auth", OK: false, Detail: "credentials rejected or no access: " + err.Error()})
+			d := "credentials rejected or no access: " + err.Error()
+			if st := client.StatusOf(err); st == 401 || st == 403 {
+				d += ". The device may have been revoked in the console: sign in again (" + config.SignInHint() + ")"
+			}
+			add(Check{Name: "auth", OK: false, Detail: d})
 		} else {
 			add(Check{Name: "auth", OK: true, Detail: fmt.Sprintf("signed in; passport %s is %s%s", p.AgentName, p.PolicyMode,
 				map[bool]string{true: ", ISOLATED", false: ""}[p.Isolated])})
@@ -93,8 +97,14 @@ func Run(newClient func(string, string) *client.Client) Report {
 	pending, dropped := sp.Pending(), sp.Dropped()
 	add(Check{Name: "spool", OK: true, Warn: pending > 1000 || dropped > 0,
 		Detail: fmt.Sprintf("%d queued, %d dropped", pending, dropped)})
-	if exe, err := os.Executable(); err == nil && !strings.HasPrefix(exe, config.BinDir()) {
+	if exe, err := os.Executable(); err == nil && !strings.HasPrefix(exe, config.BinDir()) && !config.InPlugin() {
 		add(Check{Name: "binary", OK: true, Warn: true, Detail: "running from " + exe + "; installs copy it to " + config.BinDir()})
+	}
+	if cmd := config.Command(); cmd == "agentwatch" {
+		add(Check{Name: "cli", OK: true, Detail: "agentwatch is on PATH"})
+	} else {
+		add(Check{Name: "cli", OK: true, Warn: true, Detail: "agentwatch is not on PATH; run it as " + cmd +
+			", or add it to PATH with: " + cmd + " link"})
 	}
 
 	for _, c := range adapters.Clients {

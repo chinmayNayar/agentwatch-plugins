@@ -179,10 +179,26 @@ func (c *Config) normalise() {
 		c.APIURL = DefaultAPIURL
 		c.Sources["api_url"] = "default"
 	}
+	// Every value says where it came from ("default" when nothing set it), so
+	// status never prints an empty "dry_run ()".
+	for _, k := range []string{"api_url", "mode", "fail_mode"} {
+		if c.Sources[k] == "" {
+			c.Sources[k] = "default"
+		}
+	}
 	c.APIURL = strings.TrimRight(c.APIURL, "/")
+	// The plugin's mode option is free text (older Claude Code has no option
+	// lists): accept "Enforce", " enforce ", "dry-run".
+	switch m := strings.ReplaceAll(strings.ToLower(strings.TrimSpace(c.Mode)), "-", "_"); m {
+	case ModeEnforce, ModeDryRun:
+		c.Mode = m
+	}
+	if f := strings.ReplaceAll(strings.ToLower(strings.TrimSpace(c.FailMode)), "-", "_"); f == FailClosed {
+		c.FailMode = f
+	}
 	if c.Mode != ModeEnforce {
 		if c.Mode != "" && c.Mode != ModeDryRun {
-			c.Sources["mode"] += " (unknown value; using dry_run)"
+			c.Sources["mode"] += " (unknown value " + strconv.Quote(c.Mode) + "; using dry_run)"
 		}
 		c.Mode = ModeDryRun
 	}

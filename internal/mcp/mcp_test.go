@@ -12,7 +12,7 @@ import (
 	"testing"
 )
 
-func TestServerListsOnlyReadOnlyTools(t *testing.T) {
+func TestServerListsReadOnlyToolsAndLogin(t *testing.T) {
 	h := t.TempDir()
 	t.Setenv("AGENTWATCH_HOME", filepath.Join(h, ".aw"))
 	t.Setenv("AGENTWATCH_USER_HOME", h)
@@ -43,11 +43,13 @@ func TestServerListsOnlyReadOnlyTools(t *testing.T) {
 		} `json:"result"`
 	}
 	_ = json.Unmarshal([]byte(lines[1]), &list)
-	if len(list.Result.Tools) != 6 {
+	if len(list.Result.Tools) != 7 {
 		t.Fatalf("tools: %+v", list.Result.Tools)
 	}
 	for _, tl := range list.Result.Tools {
-		if tl.Annotations["readOnlyHint"] != true {
+		// The one tool that is not read-only starts a device sign-in that a
+		// person must approve; it takes no URL or key (TestLoginToolSchema).
+		if tl.Annotations["readOnlyHint"] != true && tl.Name != "agentwatch_login" {
 			t.Fatalf("%s is not read-only", tl.Name)
 		}
 		if strings.Contains(tl.Name, "set") || strings.Contains(tl.Name, "isolate") {

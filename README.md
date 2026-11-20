@@ -16,12 +16,14 @@ Everything starts in **`dry_run`**: it records what it *would* block and blocks 
 
 ## Install
 
-**Claude Code** (plugin, needs Claude Code 2.1.271+):
+**Claude Code** (plugin, Claude Code 2.1.197 or later):
 
 ```bash
 claude plugin marketplace add chinmayNayar/agentwatch-plugins
 claude plugin install agentwatch@agentwatch
 ```
+
+Then start Claude Code and run **`/agentwatch:setup`**. It opens the approval page in your browser, shows the code, waits for you to approve it, and stores the token in your OS keychain. `/agentwatch:status` shows whether the session is watched. The plugin's binary is not on your PATH; `/agentwatch:status` prints its full path and a `link` command that puts `agentwatch` in `~/.local/bin` if you want it there.
 
 **VS Code, Cursor, Windsurf, VSCodium:** install **AgentWatch** (`agentwatch.agentwatch`) from the VS Code Marketplace or Open VSX. Then run *AgentWatch: Connect coding agents*. The extension carries the binary and connects every client on the machine.
 

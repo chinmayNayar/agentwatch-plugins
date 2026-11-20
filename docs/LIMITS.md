@@ -34,7 +34,7 @@ This page lists, per client, where blocking stops. Read it before you rely on `e
   - Cursor: Enterprise hook settings
 
   The sensor cannot override them. The console shows the device as *hooks missing* when the sensor can tell, or *silent* when the sensor stops reporting.
-- **Self-protection is a tripwire, not a sandbox.** It blocks agent edits to hook files and to `~/.agentwatch`, and shell commands that name those paths. A command that builds a path at runtime gets past it: variables, `cd` chains, base64, or an interpreter one-liner that writes a file.
+- **Self-protection is a tripwire, not a sandbox.** It blocks agent **writes** to hook files, `~/.agentwatch` and the plugin folders (`rm`, `mv`, `cp`/`rsync` into, `>`/`>>`, `tee`, `sed -i`, `chmod`/`chown`, `ln`, `truncate`, editors, `find -delete`/`-exec rm`, `xargs rm`, `git clean`/`checkout` there), and agent **reads of the credential** (`~/.agentwatch/credentials*`, the keychain entry). Reading the rest (`ls`, `find`, `cat`, `grep` on the plugin folders) is allowed. It reads the shell command (pipes, `&&`, subshells, `$(...)`, quoting, `cd` earlier on the line, `sh -c`), but it does not run it: a path built at runtime gets past it (variables other than `$HOME`, base64, a script file, `grep -r` from a parent directory such as `~`). An interpreter one-liner (`python -c`, `node -e`) that names a protected path is blocked whether it reads or writes.
 - **Processes outlive tool calls.** A process the agent starts (a dev server, a background job) keeps running after the tool call returns. Only the call that started it is checked.
 - **A sensor that cannot run is a pass on the plugin path.** See [Fail-closed needs a settings-file install](#fail-closed-needs-a-settings-file-install).
 - **`dry_run` never blocks.** The two exceptions: tools on the passport's denied list, and self-protection.
@@ -47,7 +47,7 @@ This page lists, per client, where blocking stops. Read it before you rely on `e
 | Held calls: Claude Code asks you, with the hold id | A held call you approve in Claude Code's own prompt runs. AgentWatch records it as `hold_overridden_locally` |
 | Approval-bypass launches are **reported** (`permission_mode: bypassPermissions`, launch flags) | They are not prevented: the hooks still run and still block in `enforce` |
 
-Requires Claude Code 2.1.271 or later for the plugin (`userConfig` options). `onFailure: "block"` (settings-file install with fail-closed) requires 2.1.295 or later; older versions ignore it.
+Requires Claude Code 2.1.197 or later for the plugin (tested on 2.1.197 and 2.1.329; plugin 0.1.1 needed 2.1.271 for `userConfig` options). On the first session, a pre-tool hook waits at most 3 s for the binary download: a call made before it finishes is not checked. `onFailure: "block"` (settings-file install with fail-closed) requires 2.1.295 or later; older versions ignore it.
 
 ## Cursor
 
