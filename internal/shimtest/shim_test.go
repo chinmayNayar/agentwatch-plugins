@@ -150,7 +150,16 @@ func TestFirstSessionRace(t *testing.T) {
 	if l, err := os.Readlink(filepath.Join(r.data, "bin", "agentwatch")); err != nil || l != assetName() {
 		t.Errorf("bin/agentwatch -> %q (%v)", l, err)
 	}
-	if _, err := os.Stat(filepath.Join(r.data, "bin", ".download.lock")); !os.IsNotExist(err) {
+	// The downloader releases the lock as it exits, a moment after the
+	// binary lands (waiters may already be running it).
+	lock := filepath.Join(r.data, "bin", ".download.lock")
+	for i := 0; i < 50; i++ {
+		if _, err := os.Stat(lock); os.IsNotExist(err) {
+			break
+		}
+		time.Sleep(100 * time.Millisecond)
+	}
+	if _, err := os.Stat(lock); !os.IsNotExist(err) {
 		t.Error("lock left behind")
 	}
 }

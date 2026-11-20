@@ -119,11 +119,14 @@ download() {
     rm -f "$tmp"
     exit 1
   fi
+  if [ "$os" != windows ]; then
+    # A stable name for people and for `agentwatch link`: bin/agentwatch -> this
+    # version. Made before the binary lands, so it is there when waiters wake.
+    rm -f "$bindir/agentwatch" && ln -s "$asset" "$bindir/agentwatch" 2>/dev/null
+  fi
   chmod 755 "$tmp" && mv -f "$tmp" "$bindir/$asset" || exit 1
   rm -f "$errfile"
   if [ "$os" != windows ]; then
-    # A stable name for people and for `agentwatch link`: bin/agentwatch -> this version.
-    rm -f "$bindir/agentwatch" && ln -s "$asset" "$bindir/agentwatch" 2>/dev/null
     # Older versions' binaries are no longer used by this plugin.
     for old in "$bindir"/agentwatch-*-"$os"-"$arch"*; do
       [ "$old" = "$bindir/$asset" ] || [ ! -f "$old" ] || rm -f "$old"
