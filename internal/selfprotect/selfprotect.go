@@ -947,9 +947,9 @@ func (s *scope) credKind(p, cwd string) credKindT {
 			return credDir
 		}
 	}
-	hn := normalise(s.home, "", s.home)
 	for _, k := range keychainDirs {
-		if strings.HasPrefix(n+"/", hn+"/"+strings.TrimPrefix(k, "~/")) {
+		// normalised like n (lower-cased on Windows), so the prefix compares
+		if strings.HasPrefix(n+"/", normalise(k, "", s.home)+"/") {
 			return credFile
 		}
 	}
