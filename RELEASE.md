@@ -23,11 +23,11 @@
    AW_E2E_ADMIN_KEY=... python3 tests/e2e/fresh_install_e2e.py   # local API; see the file's docstring
    ```
    Also run gitleaks over the tree and history.
-4. **Tag and push:** `git tag -a v<version> -m "v<version>: <one-line scope>"`, then `git push origin v<version>`. For v0.1.1 the message is `v0.1.1: preview: Claude Code + VS Code` (v0.1.0 was tagged but its release failed; a bad tag is never moved or deleted, a new patch release is cut), and the release is marked as a pre-release. `release.yml` then does the following:
+4. **Tag and push:** `git tag -a v<version> -m "v<version>: <one-line scope>"`, then `git push origin v<version>`. A bad tag is never moved or deleted; cut a new patch release instead (v0.1.0 was tagged but its release failed, so v0.1.1 followed). v0.1.1 and v0.1.2 were pre-releases; from v0.2.0 releases are full releases. `release.yml` then does the following:
    - builds the five binaries
    - writes `SHA256SUMS`
    - packages the five platform VSIXs
-   - creates the GitHub Release
+   - creates the GitHub Release (marked latest), with this version's `CHANGELOG.md` section as its notes; `CHANGELOG.md` must have a `## <version>` section or the job fails
    - publishes the VSIXs to the VS Code Marketplace (if the `VSCE_PAT` secret is set) and to Open VSX (if `OVSX_PAT` is set)
 5. **Verify the Claude Code install from GitHub:**
    ```bash

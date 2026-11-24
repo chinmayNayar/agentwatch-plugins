@@ -1,6 +1,6 @@
 # Codex
 
-> **Untested in the v0.1 preview.** This client has not yet been run against AgentWatch end to end. The sensor's handling is tested with payloads built from Codex's documentation. Report problems at https://github.com/chinmayNayar/agentwatch-plugins/issues.
+> **Untested against the real client (as of 0.2.0).** This client has not yet been run against AgentWatch end to end. The sensor's handling is tested with payloads built from Codex's documentation. Report problems at https://github.com/chinmayNayar/agentwatch-plugins/issues.
 
 ```bash
 agentwatch login

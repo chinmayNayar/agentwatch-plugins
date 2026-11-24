@@ -44,9 +44,12 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           v="${GITHUB_REF_NAME#v}"
+          # Notes: this version's section of CHANGELOG.md only (from "## <v>" to the next "## ").
+          awk -v v="$v" '/^## /{p = (index($0, "## " v ":") == 1 || $0 == "## " v)} p' CHANGELOG.md > dist/NOTES.md
+          test -s dist/NOTES.md || { echo "CHANGELOG.md has no section for $v"; exit 1; }
           # Each file exactly once: binaries are agentwatch-<v>-<os>, VSIXs agentwatch-<target>-<v>.vsix.
           gh release create "$GITHUB_REF_NAME" dist/agentwatch-"$v"-* dist/SHA256SUMS dist/SHA256SUMS-vsix.txt dist/*.vsix \
-            --title "$GITHUB_REF_NAME (preview: Claude Code + VS Code)" --notes-file CHANGELOG.md --verify-tag --prerelease
+            --title "$GITHUB_REF_NAME" --notes-file dist/NOTES.md --verify-tag --latest
       - name: VS Code Marketplace
         if: env.VSCE_PAT != ''
         working-directory: extensions/vscode

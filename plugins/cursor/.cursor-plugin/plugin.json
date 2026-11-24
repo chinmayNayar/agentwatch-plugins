@@ -1,7 +1,7 @@
 {
   "name": "agentwatch",
   "displayName": "AgentWatch",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Report every Cursor agent chat to AgentWatch as a run, check risky tool calls before they run, and let an operator stop the agent from the console. Defaults to dry_run.",
   "author": {
     "name": "AgentWatch"

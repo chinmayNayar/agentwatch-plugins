@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.0
+
+Bundles sensor 0.2.0, which behaves the same as 0.1.2. The icon is now 128×128, and the privacy notes list what the extension sends itself (see PRIVACY.md in the repository).
+
 ## 0.1.2
 
 Bundles sensor 0.1.2 (see the repository CHANGELOG): read-only commands on plugin folders are no longer blocked, the credential file cannot be read by an agent, clearer status and sign-in messages.

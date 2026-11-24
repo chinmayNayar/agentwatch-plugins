@@ -20,7 +20,7 @@ Golden files (`testdata/golden/`) record the exact output for every fixture.
 
 - **Every path exits 0 with valid output.** Copilot denies on a non-zero exit; Cursor blocks on invalid JSON.
 - **Nothing secret leaves the machine.** New fields go through `internal/redact` before the spool, and PRIVACY.md lists every field sent. A PR that sends a new field updates PRIVACY.md in the same change.
-- **No claim without a test.** Do not write that something blocks, detects or prevents unless a test shows it. Never say "unbypassable" except for actions routed through a client's hooks. Never say "prevents prompt injection", never claim a certification, never give a number that was not measured.
+- **No claim without a test.** Do not write that something blocks, detects or prevents unless a test shows it. Do not say something cannot be bypassed: say which path it goes through and link the gaps in LIMITS.md. Do not claim the sensor stops prompt injection, do not claim any compliance standard or third-party attestation, and never give a number that was not measured.
 - **New fixtures:** prefer payloads captured from the real client, sanitised (paths, ids, emails, prompts replaced). Mark payloads built from documentation with `"_source": "docs: …"`.
 - No secrets in the repo, including examples. CI runs gitleaks.
 

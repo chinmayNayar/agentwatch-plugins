@@ -1,7 +1,7 @@
 {
   "name": "agentwatch",
   "displayName": "AgentWatch",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Watches Claude Code like a production agent: every session becomes an AgentWatch run, risky tool calls are checked before they run, and an operator can stop the agent from the console. Defaults to dry_run.",
   "author": {
     "name": "AgentWatch",

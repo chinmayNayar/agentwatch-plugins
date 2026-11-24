@@ -1,6 +1,6 @@
 # Cursor
 
-> **Untested in the v0.1 preview.** This client has not yet been run against AgentWatch end to end. The sensor's handling is tested with captured and documented Cursor hook payloads (a manual checklist is in [checklists/cursor-manual.md](checklists/cursor-manual.md)). Report problems at https://github.com/chinmayNayar/agentwatch-plugins/issues.
+> **Untested against the real client (as of 0.2.0).** This client has not yet been run against AgentWatch end to end. The sensor's handling is tested with captured and documented Cursor hook payloads (a manual checklist is in [checklists/cursor-manual.md](checklists/cursor-manual.md)). Report problems at https://github.com/chinmayNayar/agentwatch-plugins/issues.
 
 Two ways in:
 
