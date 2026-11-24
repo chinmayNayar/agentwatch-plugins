@@ -1,6 +1,6 @@
 # GitHub Copilot (VS Code agent, Copilot CLI)
 
-> **Untested in the v0.1 preview.** This client has not yet been run against AgentWatch end to end. The sensor's handling is tested with payloads built from Copilot's documentation. Report problems at https://github.com/chinmayNayar/agentwatch-plugins/issues.
+> **Untested against the real client (as of 0.2.0).** This client has not yet been run against AgentWatch end to end. The sensor's handling is tested with payloads built from Copilot's documentation. Report problems at https://github.com/chinmayNayar/agentwatch-plugins/issues.
 
 Copilot hooks are in **preview**.
 

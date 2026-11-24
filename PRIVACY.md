@@ -12,9 +12,10 @@ This page covers the `agentwatch` binary, the Claude Code and Cursor plugins, an
 | Field | Example | Notes |
 |---|---|---|
 | Agent name | `claude-code@dev` | `<client>@<user label>`; the label defaults to your OS user name and can be changed (`user_label` in `~/.agentwatch/config.json`) |
+| Device name and OS | `dev-laptop`, `darwin-arm64` | sent at sign-in and with sensor security events; the name defaults to your **hostname** (`agentwatch login --name <name>` sets another) |
 | Session id | the client's own session / conversation id | one session = one run |
 | Tool name and class | `Bash`, `shell` | |
-| Command | `go test ./...` | **after client-side redaction** (below), truncated to 2,000 characters |
+| Command | `go test ./...` | **after client-side redaction** (below). Truncated to 2,000 characters in the recorded step, and to 4,000 in the pre-action check for shell, write, network and MCP calls |
 | File path | `/Users/dev/project/main.go` | the path, never the file |
 | MCP server and tool name | `github`, `create_issue` | |
 | Argument names | `["command", "description"]` | names only, not values |
@@ -61,6 +62,16 @@ Before anything is written to the local spool or sent, these patterns are replac
 - **Secret-named fields:** any JSON field whose name contains `secret`, `token`, `password`, `api_key`, `credential`, `authorization` or `cookie`.
 
 Redaction is pattern-based. It catches these formats, not every possible secret: a password typed as a bare word, with nothing around it that marks it as a secret, is not recognised. Redaction is tested in `internal/redact/redact_test.go`.
+
+## The VS Code extension
+
+The extension talks to the same API URL (`agentwatch.apiUrl`) and nothing else. Besides what the bundled sensor sends (above), it sends only:
+
+- **At sign-in:** your hostname as the device name, your OS user name and your OS/architecture.
+- **When you approve or deny a held call:** the decision, with your OS user name as `decided_by`.
+- **When you isolate an agent:** the isolation request, then one test run for that agent to check that new runs are refused.
+
+Everything else it does is reading: runs, steps, findings, approvals, passports, the audit check, and downloading the evidence bundle when you export it. *Open in dashboard* opens your browser at the console URL.
 
 ## On your machine
 

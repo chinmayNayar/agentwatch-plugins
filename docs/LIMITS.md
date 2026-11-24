@@ -4,7 +4,7 @@ AgentWatch blocks actions **that go through the client's hooks**. That covers mo
 
 This page lists, per client, where blocking stops. Read it before you rely on `enforce`.
 
-## Tested so far (v0.1 preview)
+## Tested so far
 
 | Client | Status |
 |---|---|
@@ -99,4 +99,4 @@ These are measurements, not targets. Real process launches, 500 calls per path, 
 
 When an operator isolates an agent in the console, every later hook-checked call from that agent is refused in `enforce`. The sensor caches the passport for up to 5 seconds, and a killed run stops its session at the next checked call.
 
-Through hooks this is the same as AgentWatch's SDK path: it stops what goes through the hooks. Only Gate-proxied model and MCP traffic is unbypassable. See AgentWatch's kill-switch documentation for the full statement.
+Through hooks this is the same as AgentWatch's SDK path: it stops what goes through the hooks. Model and MCP traffic routed through AgentWatch Gate is checked on the server side and does not depend on the client's hooks; anything the agent does outside both paths is not seen. See AgentWatch's kill-switch documentation for the full statement.

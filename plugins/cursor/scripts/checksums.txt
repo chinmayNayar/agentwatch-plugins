@@ -1,6 +1,6 @@
-# sha256  asset for v0.1.2, from the release's SHA256SUMS. The shim refuses a binary that does not match.
-08f0c4b92c92696fad2f4914e0e1c055e8a15adfd6d5d620c8e718101bbb4961  agentwatch-0.1.2-darwin-arm64
-fc3d1c6f0463fcb38d5e2f1302fbe6b8befcc602fba118eead24c25e622385f0  agentwatch-0.1.2-darwin-x64
-4d0e9a933e3e7fb6d05a017c9ec5952f10cc014e7c61250e76a1b1d13f131c56  agentwatch-0.1.2-linux-arm64
-b1e933af794874e03c6e17399d4e0cce8f6bd0c271da0056ff0e9e662d53ac0d  agentwatch-0.1.2-linux-x64
-36a68566315c195a509dfd0345453a54ff7a754e56ee83c8a9aaf2eedc384c3a  agentwatch-0.1.2-windows-x64.exe
+# sha256  asset for v0.2.0, from the release's SHA256SUMS. The shim refuses a binary that does not match.
+02f2befb5bce20d38aff18ee124e9ea8d9d662cd700b5b75fceb2c03ae094fc0  agentwatch-0.2.0-darwin-arm64
+c9c43796f94da69397453096a36ddfe0dafd6cca19143ddbead5700235b91c09  agentwatch-0.2.0-darwin-x64
+2fb9ee11016a816a968d9a1d542d692d89f638b7a64490a404cbba54f7ac00f3  agentwatch-0.2.0-linux-arm64
+53c322e60886652831f119d2bbb535e440e5dcdac08a1890a0625b1b4eee6fee  agentwatch-0.2.0-linux-x64
+6c065e4d0ff31edfb908a17264f19837aeed599c644dc20741a7cc7b249a62e3  agentwatch-0.2.0-windows-x64.exe

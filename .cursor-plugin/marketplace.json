@@ -4,13 +4,15 @@
     "name": "AgentWatch"
   },
   "metadata": {
-    "description": "AgentWatch for Cursor"
+    "description": "AgentWatch for Cursor",
+    "version": "0.2.0"
   },
   "plugins": [
     {
       "name": "agentwatch",
       "source": "plugins/cursor",
-      "description": "Report Cursor agent chats to AgentWatch; check risky tool calls before they run."
+      "description": "Report Cursor agent chats to AgentWatch; check risky tool calls before they run.",
+      "version": "0.2.0"
     }
   ]
 }

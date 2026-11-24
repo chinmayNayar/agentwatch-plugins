@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.2.0: first full release
+
+The first release that is not marked as a pre-release. The sensor's behaviour is the same as 0.1.2; this release is about the listing, the docs and the release itself.
+
+- **Full GitHub release.** The release workflow no longer marks releases as pre-releases or titles them "preview", and the release notes are this version's section of the changelog rather than the whole file.
+- **Privacy page corrected.** PRIVACY.md now lists the device name (your hostname by default) sent at sign-in and with sensor security events. It also says the pre-action check sends the redacted command truncated to 4,000 characters (the recorded step keeps 2,000), and what the VS Code extension sends itself: the sign-in fields, `decided_by` on approvals, and the isolation request.
+- **Security contact:** security@agentwatch.in, as well as GitHub private advisories.
+- **README:** install steps for Claude Code, VS Code and Cursor, each on its own, plus screenshots.
+- **Extension icon** is 128×128.
+- **Versions:** 0.2.0 in both plugin manifests, both marketplace manifests and the extension.
+- Cursor, Codex and GitHub Copilot are still **untested** against the real clients ([LIMITS.md](docs/LIMITS.md#tested-so-far)).
+
 ## 0.1.2: fixes from the first real install
 
 - **Self-protection blocked read-only commands.** `find ~/.claude/plugins/data -name 'agentwatch*' 2>/dev/null` was refused as "would modify ~/.claude/plugins/" because any `>` (here `2>/dev/null`) plus any protected path anywhere counted as a write. The check now parses the command and blocks only commands that write to protected paths. Reads (`find`, `ls`, `stat`, `cat`, `head`, `grep`) are allowed.
@@ -22,7 +34,7 @@ First published release. `v0.1.0` was tagged but never released: its release wor
 
 First release, published as a **preview**:
 - Claude Code and the VS Code extension are tested end to end.
-- **Cursor, Codex and GitHub Copilot are untested** against the real clients ([LIMITS.md](docs/LIMITS.md#tested-so-far-v01-preview)).
+- **Cursor, Codex and GitHub Copilot are untested** against the real clients ([LIMITS.md](docs/LIMITS.md#tested-so-far)).
 - Fail-closed `enforce` needs a settings-file install on Claude Code 2.1.295+. The plugin path is fail-open.
 
 - `agentwatch` sensor:

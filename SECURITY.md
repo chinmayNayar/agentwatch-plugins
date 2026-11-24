@@ -2,7 +2,12 @@
 
 ## Reporting a vulnerability
 
-Please report security issues privately through GitHub: **Security → Report a vulnerability** on this repository (private advisory). Do not open a public issue for a vulnerability.
+Please report security issues privately, in either of these ways:
+
+- **Email:** [security@agentwatch.in](mailto:security@agentwatch.in)
+- **GitHub:** **Security → Report a vulnerability** on this repository (private advisory)
+
+Do not open a public issue for a vulnerability.
 
 Include what you found, how to reproduce it, and what an attacker gains. We aim to acknowledge within 3 working days.
 
@@ -14,7 +19,7 @@ In scope:
 - the VS Code extension
 - the release workflow
 
-**Bypasses of the sensor's own guarantees are in scope.** For example:
+**Ways around what the sensor documents that it does are in scope.** For example:
 - a secret that survives redaction
 - a crash that turns a fail-closed deny into an allow
 - an agent that can change the sensor's mode
@@ -28,5 +33,5 @@ The AgentWatch service itself (`*.agentwatch.in`) has its own disclosure page: h
 
 - Each binary is built by GitHub Actions from a tag, and listed in `SHA256SUMS` on the release.
 - The plugins pin those checksums in `scripts/checksums.txt` and refuse a binary that does not match.
-- Releases are not signed with a code-signing certificate yet: macOS and Windows may warn on first run of a downloaded binary.
+- Binaries are not code-signed yet: macOS and Windows may warn on first run of a downloaded binary.
 - The repository is scanned with gitleaks on every push.
